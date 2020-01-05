@@ -2,6 +2,7 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: all
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-language_info,-toc,-latex_envs
 #     text_representation:
@@ -16,14 +17,10 @@
 # ---
 
 # %% [markdown]
-# # Laboratory 1: An Introduction to the Numerical Solution of Differential Equations: Discretization  (2020/1/6)
+# # Laboratory 1: An Introduction to the Numerical Solution of Differential Equations: Discretization  (2020/Jan/6)
 #
 #
 # John M. Stockie
-
-# %% [markdown] toc="true"
-#  # Table of Contents
-# <div class="toc" style="margin-top: 1em;"><ul class="toc-item" id="toc-level0"><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Laboratory-1:-An-Introduction-to-the-Numerical-Solution-of-Differential-Equations:-Discretization--(2017/Sept./12)" data-toc-modified-id="Laboratory-1:-An-Introduction-to-the-Numerical-Solution-of-Differential-Equations:-Discretization--(2017/Sept./12)-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Laboratory 1: An Introduction to the Numerical Solution of Differential Equations: Discretization  (2017/Sept./12)</a></span><ul class="toc-item"><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#List-of-Problems" data-toc-modified-id="List-of-Problems-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>List of Problems</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Objectives" data-toc-modified-id="Objectives-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Objectives</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Readings" data-toc-modified-id="Readings-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Readings</a></span><ul class="toc-item"><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Running-Code-Cells" data-toc-modified-id="Running-Code-Cells-1.3.1"><span class="toc-item-num">1.3.1&nbsp;&nbsp;</span>Running Code Cells</a></span></li></ul></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Introduction:-Why-bother-with-numerical-methods?" data-toc-modified-id="Introduction:-Why-bother-with-numerical-methods?-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Introduction: Why bother with numerical methods?</a></span><ul class="toc-item"><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Ordinary-Differential-Equations" data-toc-modified-id="Ordinary-Differential-Equations-1.4.1"><span class="toc-item-num">1.4.1&nbsp;&nbsp;</span>Ordinary Differential Equations</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Partial-Differential-Equations" data-toc-modified-id="Partial-Differential-Equations-1.4.2"><span class="toc-item-num">1.4.2&nbsp;&nbsp;</span>Partial Differential Equations</a></span></li></ul></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Discretization" data-toc-modified-id="Discretization-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Discretization</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Difference-Approximations-to-the-First-Derivative" data-toc-modified-id="Difference-Approximations-to-the-First-Derivative-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>Difference Approximations to the First Derivative</a></span><ul class="toc-item"><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Investigation" data-toc-modified-id="Investigation-1.6.1"><span class="toc-item-num">1.6.1&nbsp;&nbsp;</span>Investigation</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Forward-Euler-Method" data-toc-modified-id="Forward-Euler-Method-1.6.2"><span class="toc-item-num">1.6.2&nbsp;&nbsp;</span>Forward Euler Method</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Other-Approximations" data-toc-modified-id="Other-Approximations-1.6.3"><span class="toc-item-num">1.6.3&nbsp;&nbsp;</span>Other Approximations</a></span></li></ul></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Generalizations" data-toc-modified-id="Generalizations-1.7"><span class="toc-item-num">1.7&nbsp;&nbsp;</span>Generalizations</a></span><ul class="toc-item"><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Higher-Derivatives" data-toc-modified-id="Higher-Derivatives-1.7.1"><span class="toc-item-num">1.7.1&nbsp;&nbsp;</span>Higher Derivatives</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Systems-of-First-order-ODE's" data-toc-modified-id="Systems-of-First-order-ODE's-1.7.2"><span class="toc-item-num">1.7.2&nbsp;&nbsp;</span>Systems of First-order ODE's</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Boundary-Value-Problem" data-toc-modified-id="Boundary-Value-Problem-1.7.3"><span class="toc-item-num">1.7.3&nbsp;&nbsp;</span>Boundary Value Problem</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Partial-Differential-Equations" data-toc-modified-id="Partial-Differential-Equations-1.7.4"><span class="toc-item-num">1.7.4&nbsp;&nbsp;</span>Partial Differential Equations</a></span></li></ul></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Mathematical-Notes" data-toc-modified-id="Mathematical-Notes-1.8"><span class="toc-item-num">1.8&nbsp;&nbsp;</span>Mathematical Notes</a></span><ul class="toc-item"><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Solution-to-the-Heat-Conduction-Equation" data-toc-modified-id="Solution-to-the-Heat-Conduction-Equation-1.8.1"><span class="toc-item-num">1.8.1&nbsp;&nbsp;</span>Solution to the Heat Conduction Equation</a></span></li></ul></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#References" data-toc-modified-id="References-1.9"><span class="toc-item-num">1.9&nbsp;&nbsp;</span>References</a></span></li><li><span><a href="http://localhost:8890/notebooks/lab1/01-lab1.ipynb#Glossary" data-toc-modified-id="Glossary-1.10"><span class="toc-item-num">1.10&nbsp;&nbsp;</span>Glossary</a></span></li></ul></li></ul></div>
 
 # %% [markdown]
 # ## List of Problems
@@ -253,7 +250,7 @@ print (quiz.conduction_quiz(answer = 'xxxx'))
 # Sample solution curves are given in Figure [Conduction](#lab1:fig:conduction).
 
 # %%
-Image(filename='images/conduction/conduction.png',width='60%') 
+Image(filename='conduction/conduction.png',width='60%') 
 
 # %% [markdown]
 # <div id='lab1:fig:conduction'>
@@ -326,7 +323,7 @@ tc.temperature(Ta = 20, To = np.array([-10., 10., 20., 30.]), la = 0.00001)
 # |    5   |      10.0             |       4.64 |
 
 # %%
-Image(filename="images/table/table-interp.png",width='60%')
+Image(filename="table/table-interp.png",width='60%')
 
 # %% [markdown]
 # <div id='lab1:fig:table'>
@@ -370,7 +367,7 @@ Image(filename="images/table/table-interp.png",width='60%')
 # its length, and possibly out the ends (see Figure [Rod](#lab1:fig:rock-1d)).
 
 # %%
-Image(filename='images/conduction/rod.png',width='60%')
+Image(filename='conduction/rod.png',width='60%')
 
 # %% [markdown]
 # <div id='lab1:fig:rock-1d'>
@@ -438,7 +435,7 @@ Image(filename='images/conduction/rod.png',width='60%')
 # Sample solution curves are given in Figure [1d Diffusion](#lab1:fig:diffusion-1d).
 
 # %%
-Image(filename='images/diffusion/diffusion.png',width='60%')
+Image(filename='diffusion/diffusion.png',width='60%')
 
 # %% [markdown]
 # <div id='lab1:fig:diffusion-1d'>
@@ -542,10 +539,10 @@ display.display(vid)
 # functions $f$ and $g$ is shown in Figure [f and g](#lab1:fig:discrete-f).
 
 # %%
-Image(filename='images/discrete/f.png', width='60%') 
+Image(filename='discrete/f.png', width='60%') 
 
 # %%
-Image(filename='images/discrete/g.png', width='60%')
+Image(filename='discrete/g.png', width='60%')
 
 # %% [markdown]
 # > <div id='lab1:fig:discrete-f'>
@@ -621,7 +618,7 @@ print (quiz.interpolation_quiz(answer = 'xxx'))
 # An example of such a grid is shown in Figure [Grid](#lab1:fig:discrete-points).
 
 # %%
-Image(filename='images/discrete/grid.png', width='80%')
+Image(filename='discrete/grid.png', width='80%')
 
 # %% [markdown]
 # <div id='lab1:fig:discrete-points'>
@@ -708,7 +705,7 @@ print (quiz.discretization_quiz(answer = 'x'))
 # slope $y^\prime(1)$) are displayed in Figure [Tangents](#lab1:fig:deriv).
 
 # %%
-Image(filename='images/deriv/deriv.png', width='60%')
+Image(filename='deriv/deriv.png', width='60%')
 
 # %% [markdown]
 # > <div id='lab1:fig:deriv'>
@@ -810,7 +807,7 @@ da.plot_secant(2.)
 # Figure [Saturation Time Series](#lab1:fig:saturation).
 
 # %%
-Image(filename='images/feuler/sat2.png', width='60%')
+Image(filename='feuler/sat2.png', width='60%')
 
 # %% [markdown]
 # <div id='lab1:fig:saturation'>
@@ -944,7 +941,7 @@ Image(filename='images/feuler/sat2.png', width='60%')
 # $$y(0) = y_0 \;\; \mbox{and} \;\; \frac{dy}{dt}(0) = v_0.$$
 
 # %%
-Image(filename='images/balloon/balloon.png', width='60%')
+Image(filename='balloon/balloon.png', width='60%')
 
 # %% [markdown]
 # > <div id='lab1:fig:balloon'>
@@ -1096,7 +1093,7 @@ Image(filename='images/balloon/balloon.png', width='60%')
 #     
 
 # %%
-Image(filename='images/pdes/pde-grid.png', width='40%')
+Image(filename='pdes/pde-grid.png', width='40%')
 
 # %% [markdown]
 # <div id='lab1:fig:pde-grid'>
