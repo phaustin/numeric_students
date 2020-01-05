@@ -1,0 +1,25 @@
+name: numeric
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - jupyter=1.*
+  - jupytext
+  - scipy
+  - matplotlib
+  - nbsphinx
+  - sphinx=2.3.*
+  - sphinxcontrib-jsmath
+  - pyflakes
+  - black
+  - tzlocal
+  - nbgrader
+  - click
+  - pre-commit
+  - ghp-import
+  - pip:
+    - sphinx-rtd-theme
+    - tabulate
+  
+prefix: /Users/phil/a50037/envs/numeric
