@@ -8,18 +8,13 @@ dependencies:
   - jupytext
   - scipy
   - matplotlib
-  - nbsphinx
-  - sphinx=2.3.*
-  - sphinxcontrib-jsmath
   - pyflakes
   - black
-  - tzlocal
-  - nbgrader
   - click
   - pre-commit
+  - pip
   - ghp-import
   - pip:
-    - sphinx-rtd-theme
     - tabulate
   
 prefix: /Users/phil/a50037/envs/numeric
