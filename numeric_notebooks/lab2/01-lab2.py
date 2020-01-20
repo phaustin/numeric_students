@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.3.1
+#       jupytext_version: 1.3.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -245,7 +245,7 @@ theFuncs={'euler':euler,'beuler':beuler,'leapfrog':leapfrog}
 #
 output={}
 #
-#end time = 10 minutes
+#end time = 10 seconds
 #
 tend=10.
 #
@@ -257,7 +257,7 @@ To=30.
 # note that lambda is a reserved keyword in python so call this
 # thelambda
 #
-theLambda=0.8  #units have to be per minute if time in minutes
+theLambda=0.8  #units have to be per minute if time in seconds
 #
 # dt = 10/npts = 10/30 = 1/3
 #
@@ -280,7 +280,7 @@ for fun_name in output.keys():
 ax.set_xlim([0,2.])
 ax.set_ylim([30.,90.])
 ax.grid(True)
-ax.set(xlabel='time (minutes)',ylabel='bar temp (deg C)')
+ax.set(xlabel='time (seconds)',ylabel='bar temp (deg C)')
 out=ax.legend(loc='upper left')
 
 # %% [markdown]
