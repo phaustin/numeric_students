@@ -3,6 +3,7 @@
 
 """
 import matplotlib.pyplot as plt
+import context
 from numlabs.lab2.lab2_functions import euler,beuler,leapfrog
 import numpy as np
 
@@ -15,7 +16,7 @@ if __name__=="__main__":
     To=30.
     theLambda=-8.
     funChoice='euler'
-    npts=40.
+    npts=40
     approxTime,approxTemp=theFuncs[funChoice](npts,tend,To,Ta,theLambda)
     exactTime=np.empty([npts,],float)
     exactTemp=np.empty_like(exactTime)
@@ -26,7 +27,6 @@ if __name__=="__main__":
     plt.figure(1)
     plt.clf()
     plt.plot(exactTime,exactTemp,'r+')
-    plt.hold(True)
     plt.plot(approxTime,approxTemp)
     theAx=plt.gca()
     theAx.set_xlim([0,10])

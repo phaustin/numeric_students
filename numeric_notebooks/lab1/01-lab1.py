@@ -1113,9 +1113,10 @@ Image(filename='pdes/pde-grid.png', width='40%')
 #     the forward difference formula ([Forward Difference Formula](#lab1:eq:forward-diff')) for the time derivative (while evaluating the
 #     terms on the right hand side at the previous time level), we obtain
 #     the following numerical scheme:
-#     
-#     $$U_i^{n+1} = U_i^n + \frac{\alpha^2 \Delta t}{(\Delta x)^2} \left(
-#           U_{i+1}^n - 2 U_i^n + U_{i-1}^n \right).$$
+# \begin{equation}   
+#     U_i^{n+1} = U_i^n + \frac{\alpha^2 \Delta t}{(\Delta x)^2} \left(
+#           U_{i+1}^n - 2 U_i^n + U_{i-1}^n \right)
+# \end{equation}
 #
 # Given the initial values, $U_i^0=u_0(x_i)$, and boundary values
 # $U_0^n=U_M^n=0$, this difference formula allows us to compute values of

@@ -58,7 +58,12 @@
 #
 # -   Define the term or perform: Linear interpolation.
 #
-
+# %% [markdown]
+# ## Assignment
+#
+# This lab has written assignment. Hand in the hard copy with your answers
+# to Susan by xxx.  Here is the link to the [Assignment 1 pdf](pdfs/assignment1.pdf)
+#
 # %% [markdown]
 # ## Readings
 #
