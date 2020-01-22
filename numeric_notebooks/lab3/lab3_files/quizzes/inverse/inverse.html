@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95 (Thu Jan 19 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<HEAD>
+<TITLE>Solution to Matrix Inversion</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value="Solution to Matrix Inversion">
+<meta name="keywords" value="inverse">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+<H1>Solution to Matrix Inversion</H1>
+<P><STRONG></STRONG><P>
+<P><STRONG></STRONG><P>
+<P>
+
+<OL><LI>
+<P>
+The given matrix:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img1.gif"><P>
+<P>
+does not have an inverse.  It is actually a singular matrix,
+i.e. there is more than one solution to the system <b>Ax = b</b>, for some
+<b>b</b>.
+<P>
+ Suppose <b>b</b> = [2 -6 1], then solving for <IMG  ALIGN=MIDDLE ALT="" SRC="img2.gif">:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img3.gif"><P>
+<P>
+ The system has more than one solution, i.e. it does not have
+a unique solution.  Therefore, the matrix <b>A</b> does not have an
+inverse. <BR> <BR>
+<P>
+
+<LI>
+<P>
+The given matrix:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img4.gif"><P>
+<P>
+has an inverse, since the system <b>Bx = c</b> has a unique solution for some <b>c</b>.
+<P>
+ To find the inverse <IMG  ALIGN=BOTTOM ALT="" SRC="img5.gif"> of matrix <b>B</b>:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img6.gif"><P>
+<P>
+i.e.
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img7.gif"><P></OL>
+<P>
+Use Octave to confirm the answers.
+<P>
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>John M. Stockie <BR>
+Mon Sep 18 11:38:45 PDT 1995</I>
+</ADDRESS>
+</BODY>

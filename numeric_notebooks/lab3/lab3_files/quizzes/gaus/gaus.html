@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95 (Thu Jan 19 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<HEAD>
+<TITLE>Solution to Gaussian Elimination</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value="Solution to Gaussian Elimination">
+<meta name="keywords" value="gaus">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+<H1>Solution to Gaussian Elimination</H1>
+<P><STRONG></STRONG><P>
+<P><STRONG></STRONG><P>
+<P>
+
+<P>
+Given the set of linear equations:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img1.gif"><P>
+<P>
+Let's look at the solution graphically first. <BR> <BR>
+<P>
+Figure 1: <BR> <IMG  ALIGN=BOTTOM ALT="" SRC="eq1.gif
+"> <BR> 
+Figure 2: <BR> <IMG  ALIGN=BOTTOM ALT="" SRC="eq2.gif
+"> <BR> 
+Figure 3: <BR> <IMG  ALIGN=BOTTOM ALT="" SRC="eq3.gif
+">
+<P>
+Figure 1 is the plane of <IMG  ALIGN=MIDDLE ALT="" SRC="img2.gif">, Figure 2 is the plane of <IMG  ALIGN=MIDDLE ALT="" SRC="img3.gif">,
+and Figure 3 is the plane of <IMG  ALIGN=MIDDLE ALT="" SRC="img4.gif">.
+<P>
+The final result will be the intersection of the three planes:
+<P>
+<IMG  ALIGN=BOTTOM ALT="" SRC="inter.gif
+">
+<P>
+
+<P>
+One way of solving the equations:
+<P>
+<OL>
+<LI> Divide <IMG  ALIGN=MIDDLE ALT="" SRC="img5.gif"> by 2; multiply <IMG  ALIGN=MIDDLE ALT="" SRC="img6.gif"> by 3 and subtract it
+  from <IMG  ALIGN=MIDDLE ALT="" SRC="img7.gif"> to cancel <IMG  ALIGN=MIDDLE ALT="" SRC="img8.gif"> from <IMG  ALIGN=MIDDLE ALT="" SRC="img9.gif">; subtract the new
+  <IMG  ALIGN=MIDDLE ALT="" SRC="img10.gif"> from <IMG  ALIGN=MIDDLE ALT="" SRC="img11.gif"> to cancel <IMG  ALIGN=MIDDLE ALT="" SRC="img12.gif"> from <IMG  ALIGN=MIDDLE ALT="" SRC="img13.gif">: 
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img14.gif"><P>
+<P>
+
+<LI> Divide <IMG  ALIGN=MIDDLE ALT="" SRC="img15.gif"> by -18; multiply <IMG  ALIGN=MIDDLE ALT="" SRC="img16.gif"> by 2 and add it to
+  <IMG  ALIGN=MIDDLE ALT="" SRC="img17.gif"> to cancel <IMG  ALIGN=MIDDLE ALT="" SRC="img18.gif"> from <IMG  ALIGN=MIDDLE ALT="" SRC="img19.gif">:<P><IMG  ALIGN=BOTTOM ALT="" SRC="img20.gif"><P>
+<P>
+
+<LI> Now, solve for <IMG  ALIGN=MIDDLE ALT="" SRC="img21.gif">, and substitute it into <IMG  ALIGN=MIDDLE ALT="" SRC="img22.gif"> to solve
+  for <IMG  ALIGN=MIDDLE ALT="" SRC="img23.gif">; then substitute <IMG  ALIGN=MIDDLE ALT="" SRC="img24.gif"> and <IMG  ALIGN=MIDDLE ALT="" SRC="img25.gif"> into <IMG  ALIGN=MIDDLE ALT="" SRC="img26.gif"> and solve
+  for <IMG  ALIGN=MIDDLE ALT="" SRC="img27.gif">: 
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img28.gif"><P></OL>
+<P>
+So, <IMG  ALIGN=MIDDLE ALT="" SRC="img29.gif"> = -2, <IMG  ALIGN=MIDDLE ALT="" SRC="img30.gif"> = 9 and <IMG  ALIGN=MIDDLE ALT="" SRC="img31.gif"> = 3.
+<P>
+
+<P>
+Solving the equations in a matrix:
+<P>
+ Two main steps are involved in this solution.  The Gaussian
+elimination is performed first, followed by the Back-substitution:
+<P>
+<UL>
+<LI>Reducing the matrix with Gaussian elimination
+<P>
+
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img32.gif"><P>
+<P>
+
+<LI>Back-substitution
+<P>
+Reading from the matrix: <BR>
+<P>
+<UL>
+<LI>finding <IMG  ALIGN=MIDDLE ALT="" SRC="img33.gif">
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img34.gif"><P>
+<P>
+
+<LI>finding <IMG  ALIGN=MIDDLE ALT="" SRC="img35.gif">
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img36.gif"><P>
+<P>
+
+<LI>finding <IMG  ALIGN=MIDDLE ALT="" SRC="img37.gif">
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img38.gif"><P></UL></UL>
+<P>
+ So, <IMG  ALIGN=MIDDLE ALT="" SRC="img39.gif"> = -2, <IMG  ALIGN=MIDDLE ALT="" SRC="img40.gif"> = 9 and <IMG  ALIGN=MIDDLE ALT="" SRC="img41.gif"> = 3.  As expected, the two different methods give the same answer.
+<P>
+
+<P>
+
+<P>
+
+<BR> <HR>
+<P><ADDRESS>
+<I>John M. Stockie <BR>
+Fri Sep  8 14:25:44 PDT 1995</I>
+</ADDRESS>
+</BODY>

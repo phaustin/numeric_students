@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95 (Thu Jan 19 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<HEAD>
+<TITLE>Solution to Eigenvectors</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value="Solution to Eigenvectors">
+<meta name="keywords" value="eigvec">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <p><I>Press</I> BACK <i> to return to the lab.<p></i><BR> <HR> <P>
+<P>
+<H1>Solution to Eigenvectors</H1>
+<P><STRONG></STRONG><P>
+<P><STRONG></STRONG><P>
+<P>
+
+<P>
+The matrix given is:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img1.gif"><P>
+<P>
+ From the previous section, you should have found that the
+eigenvalues for this matrix are <IMG  ALIGN=BOTTOM ALT="" SRC="img2.gif"> = -1 or 8.
+<P>
+ Using Octave,
+<P>
+ octave:1<b>&gt;</b> B = [3 2 4; 2 0 2;4 2 3] <BR> 
+octave:2<b>&gt;</b> [x, lambda] = eig(B)  <BR> 
+x = <BR> <BR> 
+ 0.74536  -0.66667  -0.34487   <BR> 
+ -0.29814  -0.33333  -0.65498   <BR> 
+ -0.59628  -0.66667   0.67236   <BR> <BR> 
+lambda = <BR> <BR> 
+ -1.00000   0.00000   0.00000   <BR> 
+ 0.00000   8.00000   0.00000   <BR> 
+ 0.00000   0.00000  -1.00000   <BR>
+<P>
+ So the answer from Octave gives two unit eigenvectors for
+<IMG  ALIGN=BOTTOM ALT="" SRC="img3.gif"> = -1, and one solution for <IMG  ALIGN=BOTTOM ALT="" SRC="img4.gif"> = 8.  <BR>
+<P>
+ Calculation by hand, with <IMG  ALIGN=BOTTOM ALT="" SRC="img5.gif"> = -1, will be:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img6.gif"><P>
+<P>
+ Reading from the matrix,
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img7.gif"><P>
+<P>
+
+<P>
+ Remember that <IMG  ALIGN=BOTTOM ALT="" SRC="img8.gif"> = -1 appears as two of the three
+eigenvalues, so there are two degrees of freedom for the solution,
+i.e. the solution is actually a plane defined by this equation. 
+
+<P>
+ So any vector on this plane is an eigenvector of <b>B</b>:
+<P>
+<IMG  ALIGN=BOTTOM ALT="" SRC="eigvec.gif
+">
+<P>
+ The answers, <IMG  ALIGN=BOTTOM ALT="" SRC="img9.gif"> (0.74536, -0.29814, -0.59628) and
+(-0.34487, -0.65498, 0.67236), shown in Octave for <IMG  ALIGN=BOTTOM ALT="" SRC="img10.gif"> = -1 are
+only two of the possible unit eigenvectors for the solution.  They
+should satisfy the equation of the plane.  <BR>
+<P>
+ For <IMG  ALIGN=BOTTOM ALT="" SRC="img11.gif"> = 8, the same method can be used to find the
+eigenvector:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img12.gif"><P>
+<P>
+ Reading from the matrix:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img13.gif"><P>
+<P>
+ Letting <IMG  ALIGN=MIDDLE ALT="" SRC="img14.gif"> = 2, then <IMG  ALIGN=MIDDLE ALT="" SRC="img15.gif"> = 1 and <IMG  ALIGN=MIDDLE ALT="" SRC="img16.gif"> = 2.  This
+answer is a multiple of the solution given by Octave, which is <IMG  ALIGN=BOTTOM ALT="" SRC="img17.gif"> (-0.66667, -0.33333, -0.66667).  Note that <IMG  ALIGN=BOTTOM ALT="" SRC="img18.gif"> = 8 has
+only one degree of freedom.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>John M. Stockie <BR>
+Mon Sep 18 11:40:39 PDT 1995</I>
+</ADDRESS>
+</BODY>
