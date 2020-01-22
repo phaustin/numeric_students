@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95 (Thu Jan 19 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<HEAD>
+<TITLE>Solution to Determinant</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value="Solution to Determinant">
+<meta name="keywords" value="det">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+<H1>Solution to Determinant</H1>
+<P><STRONG></STRONG><P>
+<P><STRONG></STRONG><P>
+<P>
+
+<OL>
+<LI> Given
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img1.gif"><P>
+<P>
+ The third row has the most zero entries, so the matrix will
+be multiplied about this row to find the determinant.  The reason for
+choosing this row will become clear below. <BR>
+<P>
+ To find the determinant, you need to first find the
+components that make up the determinant of the matrix.  For each
+element <IMG  ALIGN=MIDDLE ALT="" SRC="img2.gif"> in the chosen row i of a <IMG  ALIGN=MIDDLE ALT="" SRC="img3.gif"> matrix,
+<IMG  ALIGN=MIDDLE ALT="" SRC="img4.gif"> is multiplied by the determinant of the matrix without the
+row i and the column j i.e. an <IMG  ALIGN=MIDDLE ALT="" SRC="img5.gif"> matrix.  <BR>
+<P>
+ In this case, the first element is -1, and the <IMG  ALIGN=MIDDLE ALT="" SRC="img6.gif"> matrix is the original matrix without row 3 and column 1:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img7.gif"><P>
+<P>
+ This is the first component for calculating det(A).
+<P>
+The other components are derived the same way:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img8.gif"><P>
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img9.gif"><P>
+<P>
+ Before adding the components together to find the
+determinant, there is one extra factor that is necessary.  Each
+component has to be multiplied by the number <IMG  ALIGN=MIDDLE ALT="" SRC="img10.gif">, where i and
+j are the row and column, respectively, that contain the element from
+the chosen row. <BR>
+<P>
+ So when everything is put together:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img11.gif"><P>
+<P>
+ So <b>A</b> has an inverse.
+<P>
+ Note that since two of the elements in row three are 0, in calculating the determinant, two of the components can easily be removed, because they are 0.
+<P>
+
+<LI> Given
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img12.gif"><P>
+<P>
+ The third row should be chosen since it has the most zero
+entries.  In the same way as the previous question, the various
+components are derived, so:
+<P>
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img13.gif"><P>
+<P>
+ <b>B</b> is singular, i.e. it does not have an inverse.
+<P>
+
+<LI> Given
+<P><IMG  ALIGN=BOTTOM ALT="" SRC="img14.gif"><P>
+ With Octave, <BR>
+<P>
+octave:1<b>&gt;</b> C = [4 -2 -7 6; -3 0 1 0; -1 -1 5 -1; 0 1 -5 3]  <BR> 
+octave:2<b>&gt;</b> det(C) <BR> <BR>
+<P>
+ you should get <IMG  ALIGN=MIDDLE ALT="" SRC="img15.gif"> = -82 .  <b>C</b> is non-singular, since its determinant is not zero.  So it has an inverse.
+<P>
+</OL><BR> <HR>
+<P><ADDRESS>
+<I>John M. Stockie <BR>
+Fri Sep  8 14:05:45 PDT 1995</I>
+</ADDRESS>
+</BODY>

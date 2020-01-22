@@ -1,0 +1,61 @@
+\documentclass[12pt]{article}
+
+\input{def.tex}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{flushright}
+\today
+\end{flushright}
+
+\section*{Assignment Set for Laboratory 1}
+{\it ATSC 409: Hand-in answers to questions 1, 2 and 3.\\
+EOSC 511/ATSC 506: Hand-in answers to questions 1, 3 and 4.}\\[12pt]
+
+\noindent{\bf All questions should be done by hand (not by computer) and show your steps.}\\[12pt]
+
+\begin{enumerate}
+\item Given the following four (x,y) points  (-5,-1), (0,0), (5,1), (8,4) find the y-value at x=3 using
+\begin{enumerate}
+\item Linear Interpolation
+\item Quadratic Interpolation
+\end{enumerate}
+\item Given the equation
+\begin{equation}
+\dydt = y(y+t)
+\end{equation}
+write down
+\begin{enumerate}
+\item forward Euler difference formula
+\item backward Euler difference formula
+\item centered difference formula
+\end{enumerate}
+\item The equation
+\begin{equation}
+\dydt + c \dydx = 0,\ y = \cos(x) \Mathat t=0,\ \dydt = c \sin(x) \Mathat t=0
+\end{equation}
+has a solution $y=\cos(x-ct)$.
+\begin{enumerate}
+\item Expand both derivatives as centred differences.
+\item Show that the algebraic solution is an exact solution of the difference formula if we choose $\Delta x = c \Delta t$.
+\end{enumerate}
+\item Given
+\begin{equation}
+\dydt = -\alpha y,\ y = 1 \Mathat t=0
+\end{equation}
+\begin{enumerate}
+\item Show that the forward Euler method gets a smaller answer than the backward Euler method for all $t > 0$, provided that $0 < \alpha^2 \Delta t^2 < 1$.
+\item Solve the equation analytically.
+\item Show that the forward Euler always under-estimates the answer provided that $\alpha \Delta t < 1 \Mathand \alpha \Delta t \ne 0$.
+\end{enumerate}\end{enumerate}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
