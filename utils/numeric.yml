@@ -7,6 +7,7 @@ dependencies:
   - jupyter=1.*
   - jupytext
   - scipy
+  - ipython
   - matplotlib
   - pyflakes
   - black

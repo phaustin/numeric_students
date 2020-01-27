@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "numeric_notebooks"
+		},
+		{
+			"path": "numlabs"
+		}
+	],
+	"settings": {
+		"python.formatting.provider": "black",
+		"python.pythonPath": "/Users/phil/opt/miniconda3/envs/numeric/bin/python"
+	}
+}
