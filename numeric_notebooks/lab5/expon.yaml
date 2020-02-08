@@ -1,0 +1,20 @@
+timevars:
+  dt: 0.2
+  tstart: 0.0
+  tend: 500.0
+uservars:
+  c1: -1.0
+  c2: 1.0
+  c3: 1.0
+initvars:
+  yinit: 1.0
+adaptvars:
+  dtpassmin: 0.1
+  dtpassmax: 5.0
+  dtfailmax: 0.5
+  dtfailmin: 0.1
+  s: 0.9
+  rtol: 1.0e-05
+  atol: 1.0e-05
+  maxsteps: 2000.0
+  maxfail: 60.0

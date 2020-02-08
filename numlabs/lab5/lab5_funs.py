@@ -41,6 +41,11 @@ def rkck_init():
 
 
 class Integrator:
+    """
+    Base class that holds most of the code for the RK integration
+    Inherit from this base clas and supply your own derivitve an
+    initialization routines
+    """
 
     def set_yinit(self):
         raise ValueError(
@@ -48,7 +53,7 @@ class Integrator:
 
     def __init__(self, coeffFileName):
         with open(coeffFileName, 'rb') as f:
-            config = yaml.load(f)
+            config=yaml.load(f, Loader=yaml.FullLoader)
         self.config = config
         # read in dt tstart tend
         timevars = namedtuple('timevars',config['timevars'].keys())
@@ -64,7 +69,10 @@ class Integrator:
         return out
 
     def derivs5(self, y, t):
-        raise ValueError('derivs5 needs to be overrideen in the derived class')
+        """
+        your derivs function goes here
+        """
+        raise ValueError('derivs5 needs to be overridden in the derived class')
         return None
 
     def rkckODE5(self, yold, timeStep, deltaT):

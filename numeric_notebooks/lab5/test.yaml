@@ -1,0 +1,26 @@
+timeVars:
+  dt: 0.1
+  tstart: 0.0
+  tend: 50.0
+userVars:
+  albedo_white: 0.75
+  chi: 0.3
+  s0: 1668.0
+  l: 1.1
+  albedo_black: 0.25
+  r: 0.12
+  albedo_ground: 0.5
+initVars:
+  whiteconc: 0.2
+  blackconc: 0.7
+adaptVars:
+  dtpassmin: 0.1
+  dtpassmax: 5.0
+  dtfailmax: 0.5
+  dtfailmin: 0.1
+  s: 0.9
+  rtol: 1.0e-05
+  atol: 1.0e-05
+  maxsteps: 2000.0
+  maxfail: 60.0
+trylist: [1, 2, 3, 5.0e+21]
