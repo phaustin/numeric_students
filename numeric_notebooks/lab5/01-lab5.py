@@ -9,14 +9,14 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.3.3
+#       jupytext_version: 1.3.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
-# %% [markdown]
+# %% [markdown] hide_input=true
 # # Lab 5: Daisyworld
 
 # %% [markdown]
@@ -1709,6 +1709,34 @@ for theL in Lvals:
 # ```python
 # initvars = namedtuple('initvars', self.config['initvars'].keys())
 # self.initvars = initvars(**self.config['initvars'])
+# ```
+
+# %% [markdown]
+# ## Specific example
+#
+# So to use this technique for [Problem Conduction](#prob_conduction), override `set_yinit` so that
+# it will take a new luminosity value newL, and add it to uservars, like this:
+#
+# ```
+# class IntegCoupling(Integrator):
+#     """rewrite the init and derivs5 methods to
+#        work with a single (grey) daisy
+#     """
+#
+#     def set_yinit(self, newL):
+#         #
+#         # read in 'albedo_grey chi S0 L  R albedo_ground'
+#         #
+#         self.config["uservars"]["L"] = newL # change solar incidence fraction
+#         #
+#         # make a new namedtuple factory called uservars that includes newL 
+#         #
+#         uservars_fac = namedtuple('uservars', self.config['uservars'].keys())
+#         #
+#         # use the factory to make the augmented uservars named tuple
+#         #
+#         self.uservars = uservars_fac(**self.config['uservars'])
+#         #
 # ```
 
 # %% [markdown]
