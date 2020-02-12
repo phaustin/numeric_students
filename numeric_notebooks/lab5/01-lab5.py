@@ -1719,13 +1719,13 @@ for theL in Lvals:
 #
 # ```
 # class IntegCoupling(Integrator):
-#     """rewrite the init and derivs5 methods to
-#        work with a single (grey) daisy
+#     """rewrite the set_yinit method
+#        to work with luminosity
 #     """
 #
 #     def set_yinit(self, newL):
 #         #
-#         # read in 'albedo_grey chi S0 L  R albedo_ground'
+#         # change the luminocity
 #         #
 #         self.config["uservars"]["L"] = newL # change solar incidence fraction
 #         #
