@@ -1498,7 +1498,8 @@ out = theAx.legend(loc='best')
 # # Appendix:  2 minute intro to object oriented programming
 #
 # For a very brief introduction to python classes take a look at [these scipy lecture notes](http://www.scipy-lectures.org/intro/language/oop.html)
-# that define some of the basic concepts. For perhaps more detail than you want/need to know, see [supercharge your classes with super()](https://realpython.com/python-super/)
+# that define some of the basic concepts. For perhaps more detail than you want/need to know, see this 2 part
+# series on [object oriented programming](https://realpython.com/python3-object-oriented-programming) and inheritence ([supercharge your classes with super()](https://realpython.com/python-super/))
 # Briefly, we need a way to store a lot of information, for
 # example the Runge-Kutta coefficients, in an organized way that is accessible to multiple functions,
 # without having to pass all that information through the function arguments. Python solves this problem
