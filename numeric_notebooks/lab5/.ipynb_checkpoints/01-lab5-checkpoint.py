@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.3.1
+#       jupytext_version: 1.3.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -233,9 +233,9 @@
 # makes the equations non-linear.
 
 # %% [markdown]
-# <a name="prob_constant"></a>
+# <div id="prob_constant">** Problem constant growth**</div>
 #
-# ** Problem constant growth**:
+#
 # <!-- [lab5:prob:constant] -->
 #
 # Note that though the daisy growth rate per unit
@@ -421,9 +421,9 @@ out = theAx.legend(theLines, ('white errors', 'black errors'), loc='best')
 # the appendix for more information.
 
 # %% [markdown]
-# <a name="prob_coupling"></a>
+# <div id="prob_coupling">**Problem Coupling**</div>
 #
-# **Problem Coupling**  Consider daisies with the same albedo as the
+# Consider daisies with the same albedo as the
 # planet, i.e. ’grey’ or neutral daisies, as specified in derivs5 routine
 # below.
 #
@@ -573,9 +573,9 @@ out = theAx.legend(theLines, ('grey daisies', ), loc='best')
 # $R=0$ means perfect conduction and $R=1$ implies perfect insulation
 # between regions.
 #
-# <a name="prob_conduction"></a>
+# <div id="prob_conduction">**Problem Conduction**</a>
 #
-# **Problem Conduction** The conduction parameter R will determine the
+# The conduction parameter R will determine the
 # temperature differential between the bare ground and the regions with
 # black or white daisies.  The code in the next cell specifies the derivatives
 # for this situation, removing the feedback between the daisies and the
@@ -711,9 +711,9 @@ out = theAx.legend(theLines, ('white daisies', 'black daisies'),
 #     difficult, if not impossible, to obtain exact analytic solutions.
 
 # %% [markdown]
-# <a name="prob_initial"></a>
+# <div id="prob_initial">**Problem initial**</div>
 #
-# **Problem initial** The feedback means a stable daisy population (a
+# The feedback means a stable daisy population (a
 # steady state) and the environmental conditions are in a delicate
 # balance. The code below produces a steady state which arises from a given initial daisy
 # population,
@@ -821,9 +821,9 @@ theAx.set_ylabel('fractional coverage')
 out = theAx.legend(loc='center right')
 
 # %% [markdown]
-# <a name="prob_temperature"></a>
+# <div id="prob_temperature">**Problem Temperature**</div>
 #
-# **Problem Temperature**:  The code above adds a new method, ```find_temp``` that takes the white/black daisy fractions and calculates local and planetary temperatures.
+# The code above adds a new method, ```find_temp``` that takes the white/black daisy fractions and calculates local and planetary temperatures.
 #
 # 1. override ```timeloop5fixed``` so that it saves these three temperatures, plus the daisy growth rates
 #    to new variables in the Integ54 instance
@@ -924,9 +924,9 @@ out = theAx.legend(loc='center right')
 # that produce an efficient and accurate error estimate.
 
 # %% [markdown]
-# <a name="prob_estimate"></a>
+# <div id="prob_estimate">**Problem Estimate**</div>
 #
-# **Problem Estimate**: In the demo below, compare the error estimate to
+# In the demo below, compare the error estimate to
 # the true error, on the initial value problem from ,
 #
 # $$\frac{dy}{dt} = -y +t +1,  \;\;\;\; y(0) =1$$
@@ -1119,9 +1119,9 @@ out = theAx.legend(loc='best')
 # whiteDaisies=[frac[0] for frac in yVals]
 
 # %% [markdown]
-# <a name="prob_tolerances"></a>
+# <div id="prob_tolerances">**Problem Tolerances**</div>
 #
-# **Problem Tolerances**: The Runge-Kutta algorithm with adaptive time
+# The Runge-Kutta algorithm with adaptive time
 # steps will, in general, be more efficient and accurate than same
 # algorithm with fixed time steps. In other words, greater accuracy can
 # usually be achieved in fewer time steps. For the given set of Daisyworld
@@ -1215,9 +1215,9 @@ out = theAx.legend(loc='best')
 # further in Appendix [Organization](#code_org).
 
 # %% [markdown]
-# <a name="prob_adaptive"></a>
+# <div id="prob_adaptive">**Problem adaptive**</div>
 #
-# **Problem adaptive** The demos in the previous section, solved the
+# The demos in the previous section, solved the
 # Daisyworld equations using the embedded Runge-Kutta methods with
 # adaptive timestep control.
 #
@@ -1737,7 +1737,57 @@ for theL in Lvals:
 #         #
 #         self.uservars = uservars_fac(**self.config['uservars'])
 #         #
+#
+#
+#     def __init__(self, coeffFileName, newL):
+#        super().__init__(coeffFileName)
+#        self.set_yinit(newL)
+#        
+#     ...
 # ```
+#
+# then construct a new instance with a value of newL like this:
+#
+# ```
+# theSolver = IntegCoupling("coupling.yaml", newL)
+# ```
+#
+# The IntegCoupling constructor first constructs an instance of the Integrator
+# class by calling `super()` and passing it the name of the yaml file.  Once this
+# is done then it
+# calls the `IntegCoupling.set_yinit` method which takes the Integrator class instance
+# (called "self" by convention) and modifies it by adding newL to the usersvars
+# attribute.
+#
+# Try executing
+#
+# ```
+# newL = 50
+# theSolver = IntegCoupling("coupling.yaml", newL)
+# ```
+#
+# and verify that:
+#
+# `theSolver.uservars.L`  is indeed 50
+#
+# ### Check your understanding
+#
+# To see if you're really getting the zeitgeist, try an alternative design where
+# you leave the constructor as is, and instead add a new method called:
+#
+# ```
+# def reset_L(self,newL)
+# ```
+#
+# so that you could do this:
+#
+# ```
+# newL = 50
+# theSolver = IntegCoupling("coupling.yaml")
+# theSolver.reset_L(newL)
+# ```
+#
+# and get `theSolver.uservars.L` set to 50.
 
 # %% [markdown]
 # ## Why bother?
