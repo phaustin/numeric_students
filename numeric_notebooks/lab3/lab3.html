@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Test paged.js formatting</title>
+        <script type="text/javascript" src="js/paged.polyfill.js"></script>
+        <script>
+          MathJax = {
+           tex: {
+             inlineMath: [['$', '$'], ['\\(', '\\)']]
+           },
+           svg: {
+             fontCache: 'global'
+           }
+         };       
+        </script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+           <script id="MathJax-script" async
+               src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+          </script>
+        <style>
+         /* print styles go here */
+         @page {
+             @top-left {
+                 content: "Numeric Lab 2";
+             }
+             @top-right {
+                 content: "page: " counter(page) "/" counter(pages);
+             }
+             @top-center {
+                 content: "Feb., 2020";
+             }
+         }
+         @page {
+             size: letter;
+             margin: 1in, 1in, 1in, 1.5in;
+         } /* var(--pagedjs-width) doesn't work in browser when printing */
+
+         @media print {
+
+             body {
+                 font-size: 12px;
+                 margin: 0;
+             }
+             
+             brk {
+                 /* Absolute units are great for print stylesheets */
+                 margin-bottom: 2cm;
+                 margin-left: 2cm;
+                 margin-top: 2cm;
+                 margin-right: 2cm;
+                 
+                 /* Section always get their own page */
+                 page-break-before: always;
+             }
+             
+             /* avoid splitting of ul elements */
+             ul {
+                 page-break-inside: avoid;
+             }
+             
+             /* Print at least 2 lines on the current page and 4 lines on the next page */
+             p {
+                 widows: 4;
+                 orphans: 2;
+             }
+             
+             /* Display targets of links */
+             a[href^="http"]:not([href*="codepen.io"]):after {
+                 content: " (" attr(href) ")";
+             }
+             
+             /* Display expansions of abbreviations */
+             abbr[title]:after {
+                 content: " (" attr(title) ")";
+             }
+             
+             /* Don't display maps,...*/
+             .map iframe {
+                 display: none;
+             }
+             
+             /* ...show a static map instead */
+             .map {
+                 width: 400px;
+                 height: 300px;
+                 background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=Wien+Floridsdorf&zoom=13&scale=false&size=400x300&maptype=roadmap&format=png&visual_refresh=true');
+                 print-color-adjust: exact;
+                 -webkit-print-color-adjust: exact;
+             }
+             
+             /* page specific styles */
+             @page {
+                 margin: 2cm;
+             }
+         }
+
+         @media (min-width: 48em) {
+             body {
+                 max-width: 48em;
+             }
+         }
+        </style>
+    </head>
+
+
+<body translate="no">
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Laboratory-3:-Linear-Algebra-(Sept.-12,-2017)">Laboratory 3: Linear Algebra (Sept. 12, 2017)<a class="anchor-link" href="#Laboratory-3:-Linear-Algebra-(Sept.-12,-2017)">&#182;</a></h1><p>Grace Yung</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Quiz-on-Matrices">Quiz on Matrices<a class="anchor-link" href="#Quiz-on-Matrices">&#182;</a></h4><p>Which matrix matches this system of equations?</p>
+<p><div id="quiz:sys">
+$$\begin{array}{lcr}
+2x + 3y + 6z &=& 19\\
+3x + 6y + 9z &=& 21\\
+x + 5y + 10z &=& 0
+\end{array}$$
+</div>
+(A)
+$$\left[ \begin{array}{ccc}
+2 &amp; 3 &amp; 1 \\
+3 &amp; 6 &amp; 5 \\
+6 &amp; 9 &amp; 10\\
+19 &amp; 21 &amp; 0
+\end{array}
+\right]$$
+(B)
+$$\left[ \begin{array}{ccc}
+2 &amp; 3 &amp; 6\\
+3 &amp; 6 &amp; 9\\
+1 &amp; 5 &amp; 10
+\end{array}
+\right]$$
+(C)
+$$\left[ \begin{array}{ccc|c}
+1 &amp; 5 &amp; 10 &amp; 0\\
+2 &amp; 3 &amp; 6 &amp; 19\\
+3 &amp; 6 &amp; 9 &amp; 21
+\end{array}
+\right]$$
+(D)
+$$\left[ \begin{array}{ccc|c}
+2 &amp; 3 &amp; 6 &amp; -19\\
+3 &amp; 6 &amp; 9 &amp; -21\\
+1 &amp; 5 &amp; 10 &amp; 0 
+\end{array}
+\right]$$</p>
+<p>In the following, replace 'x' by 'A', 'B', 'C', or 'D' and run the cell.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\alpha = \beta$
+$$\int \alpha dx = \beta$$
+$\require{ams}$</p>
+
+</div>
+</div>
+</div><brk>$~~~$</brk>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="List-of-Problems">List of Problems<a class="anchor-link" href="#List-of-Problems">&#182;</a></h2><ul>
+<li><a href="#Problem-One">Problem One</a>: Pollution Box Model</li>
+<li><a href="#Problem-Two">Problem Two</a>: Condition number for Dirichlet problem</li>
+<li><a href="#Problem-Three">Problem Three</a>: Condition number for Neumann problem</li>
+<li><a href="#Problem-Four">Problem Four</a>: Condition number for periodic problem</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Objectives">Objectives<a class="anchor-link" href="#Objectives">&#182;</a></h2><p>The object of this lab is to familiarize you with some of the common
+techniques used in linear algebra. You can use the Python software
+package to solve some of the problems presented in the lab. There are
+examples of using the Python commands as you go along in the lab. In
+particular, after finishing the lab, you will be able to</p>
+<ul>
+<li><p>Define: condition number, ill-conditioned matrix, singular matrix,
+LU decomposition, Dirichlet, Neumann and periodic boundary
+conditions.</p>
+</li>
+<li><p>Find by hand or using Python: eigenvalues, eigenvectors, transpose,
+inverse of a matrix, determinant.</p>
+</li>
+<li><p>Find using Python: condition numbers.</p>
+</li>
+<li><p>Explain: pivoting.</p>
+</li>
+</ul>
+<p>There is a description of using Numpy and Python for Matrices at the end of the lab. It includes a brief description of how to use the built-in functions introduced in
+this lab. Just look for the paw prints:</p>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+<p>when you are not sure what
+functions to use, and this will lead you to the mini-manual.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Prerequisites">Prerequisites<a class="anchor-link" href="#Prerequisites">&#182;</a></h2><p>You should have had an introductory course in linear algebra.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import the context to find files</span>
+<span class="kn">import</span> <span class="nn">context</span>
+<span class="c1"># import the quiz script</span>
+<span class="kn">from</span> <span class="nn">numlabs.lab3</span> <span class="kn">import</span> <span class="n">quiz3</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>******************************
+context imported. Front of path:
+/Users/phil/repos/numeric
+back of path: /Users/phil/.ipython
+******************************
+
+through /Users/phil/repos/numeric/notebooks/lab3/context.py
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Linear-Systems">Linear Systems<a class="anchor-link" href="#Linear-Systems">&#182;</a></h2><p>In this section, the concept of a matrix will be reviewed. The basic
+operations and methods in solving a linear system are introduced as
+well.</p>
+<p>Note: <strong>Whenever you see a term you are not familiar with, you can find
+a definition in the <a href="#Glossary">glossary</a>.</strong></p>
+<h3 id="What-is-a-Matrix?">What is a Matrix?<a class="anchor-link" href="#What-is-a-Matrix?">&#182;</a></h3><p>Before going any further on how to solve a linear system, you need to
+know what a linear system is. A set of m linear equations with n
+unknowns:</p>
+<div id='lab3:eq:system'>
+(System of Equations)
+$$\begin{array}{ccccccc}
+a_{11}x_{1} & + & \ldots & + & a_{1n}x_{n} & = & b_{1} \\
+a_{21}x_{1} & + & \ldots & + & a_{2n}x_{n} & = & b_{2} \\
+            &   & \vdots &   &             &   & \vdots \\
+a_{m1}x_{1} & + & \ldots & + & a_{mn}x_{n} & = & b_{m}
+\end{array}
+$$
+</div><p>can be represented as an augmented matrix:</p>
+$$\left[
+\begin{array}{cc}
+        \begin{array}{ccccc}
+                a_{11} &amp; &amp; \ldots &amp; &amp; a_{1n} \\
+                \vdots &amp; &amp; \ddots &amp; &amp; \vdots \\
+                a_{m1} &amp; &amp; \ldots &amp; &amp; a_{mn}
+        \end{array}
+&amp;
+        \left|
+        \begin{array}{rc}
+                &amp; b_{1} \\ &amp; \vdots \\ &amp; b_{m}
+        \end{array}
+        \right.
+\end{array}
+\right]$$<p>Column 1 through n of this matrix contain the coefficients $a_{ij}$ of
+the unknowns in the set of linear equations. The right most column is
+the <em>augmented column</em>, which is made up of the coefficients of the
+right hand side $b_i$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Quiz-on-Matrices">Quiz on Matrices<a class="anchor-link" href="#Quiz-on-Matrices">&#182;</a></h4><p>Which matrix matches this system of equations?</p>
+<p><div id="quiz:sys">
+$$\begin{array}{lcr}
+2x + 3y + 6z &=& 19\\
+3x + 6y + 9z &=& 21\\
+x + 5y + 10z &=& 0
+\end{array}$$
+</div>
+(A)
+$$\left[ \begin{array}{ccc}
+2 &amp; 3 &amp; 1 \\
+3 &amp; 6 &amp; 5 \\
+6 &amp; 9 &amp; 10\\
+19 &amp; 21 &amp; 0
+\end{array}
+\right]$$
+(B)
+$$\left[ \begin{array}{ccc}
+2 &amp; 3 &amp; 6\\
+3 &amp; 6 &amp; 9\\
+1 &amp; 5 &amp; 10
+\end{array}
+\right]$$
+(C)
+$$\left[ \begin{array}{ccc|c}
+1 &amp; 5 &amp; 10 &amp; 0\\
+2 &amp; 3 &amp; 6 &amp; 19\\
+3 &amp; 6 &amp; 9 &amp; 21
+\end{array}
+\right]$$
+(D)
+$$\left[ \begin{array}{ccc|c}
+2 &amp; 3 &amp; 6 &amp; -19\\
+3 &amp; 6 &amp; 9 &amp; -21\\
+1 &amp; 5 &amp; 10 &amp; 0 
+\end{array}
+\right]$$</p>
+<p>In the following, replace 'x' by 'A', 'B', 'C', or 'D' and run the cell.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">quiz3</span><span class="o">.</span><span class="n">matrix_quiz</span><span class="p">(</span><span class="n">answer</span> <span class="o">=</span> <span class="s1">&#39;B&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>You forgot the augmented column. Try again.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Quick-Review">Quick Review<a class="anchor-link" href="#Quick-Review">&#182;</a></h3><p>Here is a review on the basic matrix operations, including addition,
+subtraction and multiplication. These are important in solving linear
+systems.</p>
+<p>Here is a short exercise to see how much you remember:</p>
+<p>Let $x = \left[ \begin{array}{r} 2 \\ 2 \\ 7 \end{array} \right] , 
+     y = \left[ \begin{array}{r} -5 \\ 1 \\ 3 \end{array} \right] , 
+     A = \left[ \begin{array}{rrr}  3 &amp; -2 &amp; 10 \\  
+                                   -6 &amp;  7 &amp; -4 
+                      \end{array} \right],
+     B = \left[ \begin{array}{rr} -6 &amp; 4 \\ 7 &amp; -1 \\ 2 &amp; 9 
+                \end{array} \right]$.</p>
+<p>Calculate the following:</p>
+<ol>
+<li><p>$x + y$</p>
+</li>
+<li><p>$x^{T}y$</p>
+</li>
+<li><p>$y-x$</p>
+</li>
+<li><p>$Ax$</p>
+</li>
+<li><p>$y^{T}A$</p>
+</li>
+<li><p>$AB$</p>
+</li>
+<li><p>$BA$</p>
+</li>
+<li><p>$AA$</p>
+</li>
+</ol>
+<p>The solutions to these exercises are available <a href="lab3_files/quizzes/quick/quick.html">here</a></p>
+<p>After solving the questions by hand, you can also use Python to check
+your answers.</p>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gaussian-Elimination">Gaussian Elimination<a class="anchor-link" href="#Gaussian-Elimination">&#182;</a></h3><p>The simplest method for solving a linear system is Gaussian elimination,
+which uses three types of <em>elementary row operations</em>:</p>
+<ul>
+<li><p>Multiplying a row by a non-zero constant ($kE_{ij}$)</p>
+</li>
+<li><p>Adding a multiple of one row to another ($E_{ij} + kE_{kj}$)</p>
+</li>
+<li><p>Exchanging two rows ($E_{ij} \leftrightarrow E_{kj}$)</p>
+</li>
+</ul>
+<p>Each row operation corresponds to a step in the solution of the <a href="#lab3:eq:system">System
+of Equations</a> where the equations are combined
+together. <em>It is important to note that none of those operations changes
+the solution.</em> There are two parts to this method: elimination and
+back-substitution. The purpose of the process of elimination is to
+eliminate the matrix entries below the main diagonal, using row
+operations, to obtain a upper triangular matrix with the augmented
+column. Then, you will be able to proceed with back-substitution to find
+the values of the unknowns.</p>
+<p>Try to solve this set of linear equations:</p>
+$$\begin{array}{lrcrcrcr}
+        E_{1j}: &amp; 2x_{1} &amp; + &amp; 8x_{2} &amp; - &amp; 5x_{3} &amp; = &amp; 53 \\
+        E_{2j}: &amp; 3x_{1} &amp; - &amp; 6x_{2} &amp; + &amp; 4x_{3} &amp; = &amp; -48 \\
+        E_{3j}: &amp; x_{1} &amp; + &amp; 2x_{2} &amp; - &amp; x_{3} &amp; = &amp; 13
+\end{array}$$<p>The solution to this problem is available <a href="lab3_files/quizzes/gaus/gaus.html">here</a></p>
+<p>After solving the system by hand, you can use Python to check your
+answer.</p>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Decomposition">Decomposition<a class="anchor-link" href="#Decomposition">&#182;</a></h4><p>Any invertible, square matrix, $A$, can be factored out into a product
+of a lower and an upper triangular matrices, $L$ and $U$, respectively,
+so that $A$ = $LU$. The $LU$- <em>decomposition</em> is closely linked to the
+process of Gaussian elimination.</p>
+<h4 id="Example-One">Example One<a class="anchor-link" href="#Example-One">&#182;</a></h4><blockquote><p>Using the matrix from the system of the previous section (Sec
+<a href="#Gaussian-Elimination">Gaussian Elimination</a>), we have:</p>
+$$A = \left[ \begin{array}{rrr}  2 &amp;  8 &amp; -5  \\
+                                  3 &amp; -6 &amp;  4  \\
+                                  1 &amp;  2 &amp; -1  \end{array}  \right]$$<p>The upper triangular matrix $U$ can easily be calculated by applying
+Gaussian elimination to $A$:</p>
+$$\begin{array}{cl}
+   \begin{array}{c}   E_{2j}-\frac{3}{2}E_{1j}  \\
+                      E_{3j}-\frac{1}{2}E_{1j}  \\
+                      \rightarrow   \end{array}
+ &amp; 
+   \left[  \begin{array}{rrr}   2 &amp;   8 &amp; -5   \\
+                                0 &amp; -18 &amp; \frac{23}{2}  \\
+                                0 &amp;  -2 &amp; \frac{3}{2} 
+           \end{array}    \right]  \\   \\
+   \begin{array}{c}   E_{3j}-\frac{1}{9}E_{2j} \\
+                      \rightarrow    \end{array}
+ &amp;
+   \left[  \begin{array}{rrr}   2 &amp;   8 &amp; -5   \\
+                                0 &amp; -18 &amp; \frac{23}{2} \\
+                                0 &amp;   0 &amp; \frac{2}{9}
+           \end{array}   \right]  = U
+\end{array}$$<p>Note that there is no row exchange.</p>
+<p>The lower triangular matrix $L$ is calculated with the steps which lead
+us from the original matrix to the upper triangular matrix, i.e.:</p>
+$$\begin{array}{c}      E_{2j}-\frac{3}{2}E_{1j}  \\ \\
+                         E_{3j}-\frac{1}{2}E_{1j}  \\ \\
+                         E_{3j}-\frac{1}{9}E_{2j} 
+\end{array}$$<p>Note that each step is a multiple $\ell$ of equation $m$ subtracted from
+equation $n$. Each of these steps, in fact, can be represented by an
+elementary matrix. $U$ can be obtained by multiplying $A$ by this
+sequence of elementary matrices.</p>
+<p>Each of the elementary matrices is composed of an identity matrix the
+size of $A$ with $-\ell$ in the ($m,n$) entry. So the steps become:</p>
+$$\begin{array}{ccc}  
+    E_{2j}-\frac{3}{2}E_{1j}  &amp;  
+    \rightarrow &amp;
+    \left[  \begin{array}{rcc}   1 &amp; 0 &amp; 0  \\
+                      -\frac{3}{2} &amp; 1 &amp; 0  \\
+                                 0 &amp; 0 &amp; 1
+    \end{array}   \right]  = R \\   \\
+    E_{3j}-\frac{1}{2}E_{1j}  &amp;
+    \rightarrow &amp;
+    \left[  \begin{array}{rcc}   1 &amp; 0 &amp; 0  \\
+                                 0 &amp; 1 &amp; 0  \\
+                      -\frac{1}{2} &amp; 0 &amp; 1 
+    \end{array}   \right]  = S \\   \\
+    E_{3j}-\frac{1}{9}E_{2j}  &amp;
+    \rightarrow &amp;
+    \left[  \begin{array}{crc}  1 &amp; 0 &amp; 0 \\
+                                0 &amp; 1 &amp; 0  \\
+                                0 &amp; -\frac{1}{9} &amp; 1
+    \end{array}   \right]  = T
+\end{array}$$<p>and $TSRA$ = $U$. Check this with Python.</p>
+<p>To get back from $U$ to $A$, the inverse of $R$, $S$ and $T$ are
+multiplied onto $U$:</p>
+$$\begin{array}{rcl}
+          T^{-1}TSRA &amp; = &amp; T^{-1}U  \\
+           S^{-1}SRA &amp; = &amp; S^{-1}T^{-1}U  \\ 
+            R^{-1}RA &amp; = &amp; R^{-1}S^{-1}T^{-1}U \\
+\end{array}$$<p>So $A$ = $R^{-1}S^{-1}T^{-1}U$. Recall that $A$ = $LU$. If
+$R^{-1}S^{-1}T^{-1}$ is a lower triangular matrix, then it is $L$.</p>
+<p>The inverse of the elementary matrix is the same matrix with only one
+difference, and that is, $\ell$ is in the $a_{mn}$ entry instead of
+$-\ell$. So:</p>
+$$\begin{array}{rcl}
+      R^{-1} &amp; = &amp; \left[ \begin{array}{rrr} 1 &amp; 0 &amp; 0 \\
+                                   \frac{3}{2} &amp; 1 &amp; 0 \\
+                                             0 &amp; 0 &amp; 1
+                          \end{array}   \right]       \\  \\
+      S^{-1} &amp; = &amp; \left[ \begin{array}{rrr} 1 &amp; 0 &amp; 0 \\
+                                             0 &amp; 1 &amp; 0 \\
+                                   \frac{1}{2} &amp; 0 &amp; 1
+                          \end{array}   \right]       \\  \\
+      T^{-1} &amp; = &amp; \left[ \begin{array}{rrr} 1 &amp; 0 &amp; 0 \\
+                                             0 &amp; 1 &amp; 0 \\
+                                   0 &amp; \frac{1}{9} &amp; 1
+                          \end{array}   \right] 
+\end{array}$$<p>Multiplying $R^{-1}S^{-1}T^{-1}$ together, we have:</p>
+$$\begin{array}{rcl}  R^{-1}S^{-1}T^{-1} 
+   &amp; = &amp;
+   \left[ \begin{array}{ccc}    1 &amp;           0 &amp; 0 \\
+                      \frac{3}{2} &amp;           1 &amp; 0  \\
+                      \frac{1}{2} &amp; \frac{1}{9} &amp; 1
+   \end{array}   \right]  = L
+\end{array}$$<p>So $A$ is factored into two matrices $L$ and $U$, where</p>
+$$\begin{array}{ccc}
+    L = \left[  \begin{array}{ccc}    1 &amp;           0 &amp; 0 \\
+                            \frac{3}{2} &amp;           1 &amp; 0  \\
+                            \frac{1}{2} &amp; \frac{1}{9} &amp; 1
+                \end{array}  \right]
+&amp; \mbox{ and } &amp;
+    U = \left[  \begin{array}{ccc}  2 &amp;   8 &amp; -5   \\
+                                    0 &amp; -18 &amp; \frac{23}{2} \\
+                                    0 &amp;   0 &amp; \frac{2}{9}
+                \end{array}  \right]
+\end{array}$$<p>Use Python to confirm that $LU$ = $A$.</p>
+</blockquote>
+<p>The reason decomposition is introduced here is not because of Gaussian
+elimination $-$ one seldom explicitly computes the $LU$ decomposition of
+a matrix. However, the idea of factoring a matrix is important for other
+direct methods of solving linear systems (of which Gaussian elimination
+is only one) and for methods for finding eigenvalues (<a href="#Characteristic-Equation">Characteristic Equation</a>).</p>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Round-off-Error">Round-off Error<a class="anchor-link" href="#Round-off-Error">&#182;</a></h3><p>When a number is represented in its floating point form, i.e. an
+approximation of the number, the resulting error is the <em>round-off
+error</em>. The floating-point representation of numbers  and the consequent
+effects of round-off error were discussed already in Lab #2.</p>
+<p>When round-off errors are present in the matrix $A$ or the right hand
+side $b$, the linear system $Ax = b$ may or may not give a solution that
+is close to the real answer. When a matrix $A$ “magnifies” the effects
+of round-off errors in this way, we say that $A$ is an ill-conditioned
+matrix.</p>
+<h4 id="Example-Two">Example Two<a class="anchor-link" href="#Example-Two">&#182;</a></h4><blockquote><p>Let’s see an example:</p>
+<p>Suppose</p>
+$$A = \left[ \begin{array}{cc} 1 &amp; 1 \\ 1 &amp; 1.0001 
+              \end{array} \right]$$<p>and consider the system:</p>
+<div id='lab3:eq:illbefore'>
+(Ill-conditioned version one):
+ $$\left[ \begin{array}{cc}
+   \begin{array}{cc}   1 & 1 \\  1 & 1.0001  \end{array} 
+&
+   \left| \begin{array}{c}  2 \\ 2 \end{array}  \right]
+\end{array}   \right.
+$$
+</div><p>The condition number, $K$, of a matrix, defined in <a href="#Condition-Number">Condition Number</a>, is a measure of how well-conditioned a matrix is. If
+$K$ is large, then the matrix is ill-conditioned, and Gaussian
+elimination will magnify the round-off errors. The condition number of
+$A$ is 40002. You can use Python to check this number.</p>
+<p>The solution to this is $x_1$ = 2 and $x_2$ = 0. However, if the system
+is altered a little as follows:</p>
+<div id='lab3:eq:illafter'>
+(Ill-conditioned version two):
+ $$\left[ \begin{array}{cc}
+   \begin{array}{cc}   1 & 1 \\  1 & 1.0001  \end{array}
+&
+   \left| \begin{array}{c}  2 \\ 2.0001 \end{array}  \right]
+\end{array}   \right.
+$$
+</div><p>Then, the solution becomes $x_1$ = 1 and $x_2$ = 1. A change in the
+fifth significant digit was amplified to the point where the solution is
+not even accurate to the first significant digit. $A$ is an
+ill-conditioned matrix. You can set up the systems <a href="#lab3:eq:illbefore">Ill-conditioned version one</a>
+and <a href="#lab3:eq:illafter">Ill-conditioned version two</a> in Python, and check the answers yourself.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Example-Three">Example Three<a class="anchor-link" href="#Example-Three">&#182;</a></h4><blockquote><p>Use Python to try the following example. First solve the
+system $A^{\prime}x = b$; then solve $A^{\prime}x = b2$. Find the
+condition number of $A^{\prime}$.</p>
+$$\begin{array}{ccccc}
+A^{\prime} = \left[ \begin{array}{cc} 0.0001 &amp; 1  \\ 1 &amp; 1 
+             \end{array}   \right]
+&amp; , &amp; 
+b = \left[ \begin{array}{c} 1 \\ 2  \end{array}  \right]
+&amp; \mbox{and} &amp;
+b2 = \left[ \begin{array}{c} 1 \\ 2.0001  \end{array}  \right] .
+\end{array}$$<p>You will find that the solution for $A^{\prime}x = b$ is $x_1$ = 1.0001
+and $x_2$ = 0.9999, and the solution for $A^{\prime}x = b2$ is $x_1$ =
+1.0002 and $x_2$ = 0.9999 . So a change in $b$ did not result in a large
+change in the solution. Therefore, $A^{\prime}$ is a well-conditioned
+matrix. In fact, the condition number is approximately 2.6.</p>
+<p>Nevertheless, even a well conditioned system like $A^{\prime}x =
+b$ leads to inaccuracy if the wrong solution method is used, that is, an
+algorithm which is sensitive to round-off error. If you use Gaussian
+elimination to solve this system, you might be misled that $A^{\prime}$
+is ill-conditioned. Using Gaussian elimination to solve $A^{\prime}x=b$:</p>
+$$\begin{array}{cl}
+&amp;  \left[
+\begin{array}{cc}
+     \begin{array}{cc}  0.0001 &amp; 1 \\  1 &amp; 1  \end{array}  
+&amp;
+     \left|
+     \begin{array}{c}  1 \\ 2  \end{array}  \right]
+\end{array}  \right.  \\  \\
+\begin{array}{c}  10,000E_{1j} \\ \rightarrow \end{array}  &amp;
+\left[
+\begin{array}{cc}
+     \begin{array}{cc}  1 &amp; 10,000 \\  1 &amp; 1  \end{array}  
+&amp;
+     \left|
+     \begin{array}{c}  10,000 \\ 2  \end{array}  \right]
+\end{array}  \right.  \\  \\
+\begin{array}{c}  E_{2j}-E_{1j} \\ \rightarrow \end{array} &amp;
+\left[
+\begin{array}{cc}
+     \begin{array}{cc}  1 &amp; 10,000  \\  0 &amp; -9,999  \end{array}  
+&amp;
+     \left|
+     \begin{array}{c}  10,000 \\ -9,998  \end{array}  \right]
+\end{array}  \right.
+\end{array}$$<p>At this point, if you continue to solve the system as is, you will get
+the expected answers. You can check this with Python. However, if you
+make changes to the matrix here by rounding -9,999 and -9,998 to -10,000, 
+the final answers will be different:</p>
+$$\begin{array}{cl}
+&amp; \left[
+\begin{array}{cc}
+     \begin{array}{cc}  1 &amp; 10,000  \\  0 &amp; -10,000  \end{array}
+&amp;
+     \left|
+     \begin{array}{c}  10,000 \\ -10,000  \end{array}  \right]
+\end{array}  \right. 
+\end{array}$$<p>The result is $x_1$ = 0 and $x_2$ = 1, which is quite different from the
+correct answers. So Gaussian elimination might mislead you to think that
+a matrix is ill-conditioned by giving an inaccurate solution to the
+system. In fact, the problem is that Gaussian elimination on its own is
+a method that is unstable in the presence of round-off error, even for
+well-conditioned matrices. Can this be fixed?</p>
+<p>You can try the example with Python.</p>
+</blockquote>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Partial-Pivoting">Partial Pivoting<a class="anchor-link" href="#Partial-Pivoting">&#182;</a></h4><p>There are a number of ways to avoid inaccuracy, one of which is applying
+partial pivoting to the Gaussian elimination.</p>
+<p>Consider the example from the previous section. In order to avoid
+multiplying by 10,000, another pivot is desired in place of 0.0001. The
+goal is to examine all the entries in the first column, find the entry
+that has the largest value, and exchange the first row with the row that
+contains this element. So this entry becomes the pivot. This is partial
+pivoting. Keep in mind that switching rows is an elementary operation
+and has no effect on the solution.</p>
+<p>In the original Gaussian elimination algorithm, row exchange is done
+only if the pivot is zero. In partial pivoting, row exchange is done so
+that the largest value in a certain column is the pivot. This helps to
+reduce the amplification of round-off error.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Example-Four">Example Four<a class="anchor-link" href="#Example-Four">&#182;</a></h4><blockquote><p>In the matrix $A^{\prime}$ from <a href="#Example-Two">Example Two</a>, 0.0001 from
+column one is the first pivot. Looking at this column, the entry, 1, in
+the second row is the only other choice in this column. Obviously, 1 is
+greater than 0.0001. So the two rows are exchanged.</p>
+$$\begin{array}{cl}
+   &amp; \left[ \begin{array}{cc}
+            \begin{array}{cc}  0.0001 &amp; 1 \\  1 &amp; 1  \end{array} 
+        &amp;   \left|
+            \begin{array}{c}   1 \\ 2  \end{array} \right]
+   \end{array}  \right. \\   \\
+   \begin{array}{c} E_{1j} \leftrightarrow E_{2j} \\  \rightarrow
+   \end{array}
+   &amp;  \left[ \begin{array}{cc}
+          \begin{array}{cc}  1 &amp; 1 \\  0.0001 &amp; 1  \end{array} 
+       &amp;  \left|
+          \begin{array}{c}   2 \\ 1  \end{array} \right]   
+   \end{array}  \right.  \\  \\
+   \begin{array}{c}  E_{2j}-0.0001E_{1j} \\ \rightarrow \end{array} 
+   &amp; \left[ \begin{array}{cc}
+            \begin{array}{cc}  1 &amp; 1 \\  0 &amp; 0.9999  \end{array} 
+        &amp;   \left|
+           \begin{array}{c}   2 \\ 0.9998  \end{array} \right]
+   \end{array}  \right.
+\end{array}$$<p>The same entries are rounded off:</p>
+$$\begin{array}{cl}
+   &amp; \left[  \begin{array}{cc}
+             \begin{array}{cc}  1 &amp; 1 \\ 0 &amp; 1  \end{array}
+      &amp;
+             \left|
+             \begin{array}{c}  2 \\ 1  \end{array}  \right]
+   \end{array}   \right. \\  \\
+   \begin{array}{c}  E_{1j}-E_{2j}  \\  \rightarrow  \end{array}
+   &amp; \left[  \begin{array}{cc}
+             \begin{array}{cc}  1 &amp; 0  \\ 0 &amp; 1 \end{array}
+      &amp;
+             \left|
+             \begin{array}{c} 1 \\ 1 \end{array}  \right]
+   \end{array}   \right.
+\end{array}$$<p>So the solution is $x_1$ = 1 and $x_2$ = 1, and this is a close
+approximation to the original solution, $x_1$ = 1.0001 and $x_2$ =
+0.9999.</p>
+<p>You can try the example with Python.</p>
+</blockquote>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+<p>Note: This section has described row pivoting. The same process can be
+applied to columns, with the resulting procedure being called column
+pivoting.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Full-Pivoting">Full Pivoting<a class="anchor-link" href="#Full-Pivoting">&#182;</a></h4><p>Another way to get around inaccuracy (Example <a href="#Example-Three">Three</a>) is to
+use Gaussian elimination with full pivoting. Sometimes, even partial
+pivoting can lead to problems. With full pivoting, in addition to row
+exchange, columns will be exchanged as well. The purpose is to use the
+largest entries in the whole matrix as the pivots.</p>
+<h4 id="Example-Five">Example Five<a class="anchor-link" href="#Example-Five">&#182;</a></h4><blockquote><p>Given the following:</p>
+$$ \begin{array}{cccc}
+&amp;  A^{''} = \left[ \begin{array}{ccc} 0.0001 &amp; 0.0001 &amp; 0.5 \\
+                                        0.5 &amp;      1 &amp; 1 \\
+                                     0.0001 &amp;      1 &amp; 0.0001 
+                             \end{array} 
+                      \right]  
+&amp; \ \ \ &amp;
+b^{'} = \left[ \begin{array}{c} 1 \\ 0 \\ 1 
+               \end{array} 
+        \right]  \\ \\
+\rightarrow &amp;
+\left[  \begin{array}{cc} 
+                          \begin{array}{ccc}   0.0001 &amp; 0.0001 &amp; 0.5  \\
+                                                  0.5 &amp;      1 &amp;  1   \\
+                                               0.0001 &amp;      1 &amp; 0.0001
+                          \end{array}
+                    &amp;  \left|   \begin{array}{c}  1 \\ 0 \\ 1 
+                                \end{array} 
+                       \right]
+        \end{array}   
+\right.  &amp;  &amp; 
+\end{array}$$<p>Use Python to find the condition number of $A^{''}$ and the solution to
+this system.</p>
+<p>Looking at the system, if no rows are exchanged, then taking 0.0001 as
+the pivot will magnify any errors made in the elements in column 1 by a
+factor of 10,000. With partial pivoting, the first two rows can be
+exchanged (as below):</p>
+$$\begin{array}{cl}
+\begin{array}{c} \\  E_{1j} \leftrightarrow E_{2j} \\ \rightarrow
+\end{array} 
+&amp;   \begin{array}{ccccc}
+         &amp; x_1 &amp; x_2 &amp; x_3 &amp;  \\
+   \left[ \begin{array}{c} \\  \\  \\ \end{array} \right. 
+   &amp; \begin{array}{c} 0.5 \\ 0.0001 \\ 0.0001  \end{array} 
+   &amp; \begin{array}{c}   1 \\ 0.0001 \\ 1       \end{array}
+   &amp; \begin{array}{c}   1 \\    0.5 \\ 0.0001  \end{array} 
+   &amp; \left|  \begin{array}{c}   0 \\ 1 \\ 1  \end{array} \right]
+   \end{array}
+\end{array} $$<p></p>
+<p>and the magnification by 10,000 is avoided. Now the matrix will be
+expanded by a factor of 2. However, if the entry 1 is used as the pivot,
+then the matrix does not need to be expanded by 2 either. The only way
+to put 1 in the position of the first pivot is to perform a column
+exchange between columns one and two, or between columns one and three.
+This is full pivoting.</p>
+<p>Note that when columns are exchanged, the variables represented by the
+columns are switched as well, i.e. when columns one and two are
+exchanged, the new column one represents $x_2$ and the new column two
+represents $x_1$. So, we must keep track of the columns when performing
+column pivoting.</p>
+<p>So the columns one and two are exchanged, and the matrix becomes:</p>
+$$\begin{array}{cl}
+\begin{array}{c} \\ E_{i1} \leftrightarrow E_{i2} \\ \rightarrow
+\end{array}
+&amp;    \begin{array}{ccccc}
+          &amp; x_2 &amp; x_1 &amp; x_3 &amp;  \\
+          \left. \begin{array}{c} \\  \\  \\ \end{array} \right[
+     &amp; \begin{array}{c}   1 \\ 0.0001 \\      1  \end{array}
+     &amp; \begin{array}{c} 0.5 \\ 0.0001 \\ 0.0001  \end{array} 
+     &amp; \begin{array}{c}   1 \\    0.5 \\ 0.0001  \end{array}  
+     &amp; \left|  \begin{array}{c}   0 \\ 1 \\ 1  \end{array} \right]
+\end{array}  \\    \\
+\begin{array}{c}  \\ E_{2j}-0.0001E_{1j} \\ E_{3j}-E_{1j} \\ \rightarrow
+\end{array}
+&amp;    \begin{array}{ccccc}
+         &amp; x_2 &amp; x_1 &amp; x_3 &amp;  \\
+          \left. \begin{array}{c} \\  \\  \\ \end{array} \right[
+     &amp; \begin{array}{c}   1 \\       0 \\      0  \end{array}
+     &amp; \begin{array}{c} 0.5 \\ 0.00005 \\ -0.4999  \end{array}
+     &amp; \begin{array}{c}   1 \\  0.4999 \\ -0.9999  \end{array}
+     &amp; \left|  \begin{array}{c}   0 \\ 1 \\ 1  \end{array} \right]
+\end{array}
+\end{array}$$<p>If we assume rounding is performed, then the entries are rounded off:</p>
+$$\begin{array}{cl}
+&amp; \begin{array}{ccccc}
+         &amp; x_2 &amp; x_1 &amp; x_3 &amp;  \\
+          \left. \begin{array}{c} \\  \\  \\ \end{array} \right[
+     &amp; \begin{array}{c}   1 \\       0 \\    0  \end{array}
+     &amp; \begin{array}{c} 0.5 \\ 0.00005 \\ -0.5  \end{array}
+     &amp; \begin{array}{c}   1 \\     0.5 \\   -1  \end{array}
+     &amp; \left|  \begin{array}{c}   0 \\ 1 \\ 1  \end{array} \right]
+\end{array}  \\   \\
+\begin{array}{c}  \\ -E_{3j}  \\
+                  E_{2j} \leftrightarrow E_{3j} \\ 
+                  E_{i2} \leftrightarrow E_{i3} \\ 
+                  \rightarrow
+\end{array}
+&amp;  \begin{array}{ccccc}
+         &amp; x_2 &amp; x_3 &amp; x_1 &amp;  \\
+          \left. \begin{array}{c} \\  \\  \\ \end{array} \right[
+     &amp; \begin{array}{c}   1 \\   0 \\       0  \end{array}
+     &amp; \begin{array}{c}   1 \\   1 \\     0.5  \end{array}
+     &amp; \begin{array}{c} 0.5 \\ 0.5 \\ 0.00005    \end{array}
+     &amp; \left|  \begin{array}{r}   0 \\ -1 \\ 1  \end{array} \right]
+\end{array}  \\    \\
+\begin{array}{c}  E_{1j}-E_{2j}  \\  
+                  E_{3j}-0.5 E_{2j} \\
+                  \rightarrow
+\end{array}
+&amp;  \begin{array}{ccccc}
+         &amp; x_2 &amp; x_3 &amp; x_1 &amp;  \\
+          \left. \begin{array}{c} \\  \\  \\ \end{array} \right[
+     &amp; \begin{array}{c} 1 \\   0 \\        0  \end{array}
+     &amp; \begin{array}{c} 0 \\   1 \\        0  \end{array}
+     &amp; \begin{array}{c} 0 \\ 0.5 \\ -0.24995    \end{array}
+     &amp; \left|  \begin{array}{r}   1 \\ -1 \\ 1.5  \end{array} \right]
+\end{array}
+\end{array}$$<p>Rounding off the matrix again:</p>
+$$\begin{array}{cl}
+\begin{array}{c} \rightarrow  \end{array}
+&amp;   \begin{array}{ccccc}
+         &amp; x_2 &amp; x_3 &amp; x_1 &amp;  \\
+          \left. \begin{array}{c} \\  \\  \\ \end{array} \right[
+     &amp; \begin{array}{c} 1 \\   0 \\     0  \end{array}
+     &amp; \begin{array}{c} 0 \\   1 \\     0  \end{array}
+     &amp; \begin{array}{c} 0 \\ 0.5 \\ -0.25    \end{array}
+         &amp; \left|  \begin{array}{r}   1 \\ -1 \\ 1.5  \end{array} \right]
+\end{array}  \\    \\ 
+\begin{array}{c}  E_{2j}-2E_{3j}   \\ 
+                  4E_{3j}  \\
+                  \rightarrow  \end{array}
+&amp;  \begin{array}{ccccc}
+         &amp; x_2 &amp; x_3 &amp; x_1 &amp;  \\
+          \left. \begin{array}{c} \\  \\  \\ \end{array} \right[
+     &amp; \begin{array}{c} 1 \\ 0 \\ 0  \end{array}
+     &amp; \begin{array}{c} 0 \\ 1 \\ 0  \end{array}
+     &amp; \begin{array}{c} 0 \\ 0 \\ 1    \end{array}
+     &amp; \left|  \begin{array}{r}   1 \\ 2 \\ -6  \end{array} \right]
+\end{array}
+\end{array}$$<p>So reading from the matrix, $x_1$ = -6, $x_2$ = 1 and $x_3$ = 2. Compare
+this with the answer you get with Python, which is $x_1
+\approx$ -6.0028, $x_2 \approx$ 1.0004 and $x_3 \approx$ 2.0010 .</p>
+<p>Using full pivoting with Gaussian elimination, expansion of the error by
+large factors is avoided. In addition, the approximated solution, using
+rounding (which is analogous to the use of floating point
+approximations), is close to the correct answer.</p>
+<p>You can try the example with Python.</p>
+</blockquote>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h4><p>In a system $Ax = b$, if round-off errors in $A$ or $b$ affect the
+system such that it may not give a solution that is close to the real
+answer, then $A$ is ill-conditioned, and it has a very large condition
+number.</p>
+<p>Sometimes, due to a poor algorithm, such as Gaussian elimination without
+pivoting, a matrix may appear to be ill-conditioned, even though it is
+not. By applying partial pivoting, this problem is reduced, but partial
+pivoting will not always eliminate the effects of round-off error. An
+even better way is to apply full pivoting. Of course, the drawback of
+this method is that the computation is more expensive than plain
+Gaussian elimination.</p>
+<p>An important point to remember is that partial and full pivoting
+minimize the effects of round-off error for well-conditioned matrices.
+If a matrix is ill-conditioned, these methods will not provide a
+solution that approximates the real answer. As an exercise, you can try
+to apply full pivoting to the ill-conditioned matrix $A$ seen at the
+beginning of this section (Example <a href="#Example-Two">Two</a>). You will find that
+the solution is still inaccurate.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Matrix-Inversion">Matrix Inversion<a class="anchor-link" href="#Matrix-Inversion">&#182;</a></h3><p>Given a square matrix $A$. If there is a matrix that will cancel $A$,
+then it is the <em>inverse</em> of $A$. In other words, the matrix, multiplied
+by its inverse, will give the identity matrix $I$.</p>
+<p>Try to find the inverse for the following matrices:</p>
+<ol>
+<li><p>$$A = \left[ \begin{array}{rrr}    1 &amp; -2 &amp;  1 \</p>
+
+<pre><code>                                 3 &amp;  1 &amp; -1 \\
+                                -1 &amp;  9 &amp; -5     \end{array} \right]$$</code></pre>
+</li>
+<li><p>$$B = \left[ \begin{array}{rrr}    5 &amp; -2 &amp;  4 \</p>
+
+<pre><code>                                -3 &amp;  1 &amp; -5 \\
+                                 2 &amp; -1 &amp;  3     \end{array} \right]$$</code></pre>
+</li>
+</ol>
+<p>The solutions to these exercises are available <a href="lab3_files/quizzes/inverse/inverse.html">here</a></p>
+<p>After solving the questions by hand, you can use Python to check your
+answer.</p>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Determinant">Determinant<a class="anchor-link" href="#Determinant">&#182;</a></h3><p>Every square matrix $A$ has a scalar associated with it. This number is
+the determinant of the matrix, represented as $\det(A)$. Its absolute
+value is the volume of the parallelogram that can be generated from the
+rows of $A$.</p>
+<p>A few special properties to remember about determinants:</p>
+<ol>
+<li><p>$A$ must be a square matrix.</p>
+</li>
+<li><p>If $A$ is singular, $\det(A) =0$, i.e. $A$ does not have an inverse.</p>
+</li>
+<li><p>The determinant of a $2 \times 2$ matrix is just the difference
+between the products of the diagonals, i.e.</p>
+<p>$$\begin{array}{ccc}
+\left[  \begin{array}{cc}  a &amp; b \\ c &amp; d   \end{array} \right]  &amp;
+= &amp;
+\begin{array}{ccc} ad &amp; - &amp; bc  \end{array}
+\end{array}$$</p>
+</li>
+<li><p>For any diagonal, upper triangular or lower triangular matrix $A$,
+$\det(A)$ is the product of all the entries on the diagonal,</p>
+</li>
+</ol>
+<h4 id="Example-Six">Example Six<a class="anchor-link" href="#Example-Six">&#182;</a></h4><blockquote><p>$$\begin{array}{cl}
+    &amp; \det \left[
+       \begin{array}{rrr}
+             2 &amp; 5 &amp; -8  \\
+             0 &amp; 1 &amp;  7  \\
+             0 &amp; 0 &amp; -4 
+       \end{array} \right]  \\   \\
+    = &amp; 2 \times 1 \times -4 \\
+    = &amp; -8
+    \end{array}$$</p>
+<p>Graphically, the parallelogram looks as follows:</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src='images/det-plot.png' width='60%' /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The basic procedure in finding a determinant of a matrix larger than 2
+$\times$ 2 is to calculate the product of the non-zero entries in each
+of the <em>permutations</em> of the matrix, and then add them together. A
+permutation of a matrix $A$ is a matrix of the same size with one
+element from each row and column of $A$. The sign of each permutation is
+$+$ or $-$ depending on whether the permutation is odd or even. This is
+illustrated in the following example …</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Example-Seven">Example Seven<a class="anchor-link" href="#Example-Seven">&#182;</a></h4><blockquote>$$I = \left[ \begin{array}{ccc}  1 &amp; 2 &amp; 3 \\
+                                  4 &amp; 5 &amp; 6 \\
+                                  7 &amp; 8 &amp; 9  \end{array}  \right]$$<p>will have the following permutations:</p>
+$$\begin{array}{cccccc}
++\left[ \begin{array}{ccc}  1 &amp;   &amp;   \\
+                             &amp; 5 &amp;   \\
+                             &amp;   &amp; 9  \end{array}  \right]
+&amp; , &amp;
++\left[ \begin{array}{ccc}    &amp; 2 &amp;   \\
+                             &amp;   &amp; 6 \\
+                           7 &amp;   &amp;    \end{array}  \right]
+&amp; , &amp;
++\left[ \begin{array}{ccc}    &amp;   &amp; 3 \\
+                           4 &amp;   &amp;   \\
+                             &amp; 8 &amp;    \end{array}  \right]
+&amp; ,  \\  \\
+-\left[ \begin{array}{ccc}  1 &amp;   &amp;   \\
+                             &amp;   &amp; 6 \\
+                             &amp; 8 &amp;    \end{array}  \right]
+&amp; , &amp;
+-\left[ \begin{array}{ccc}    &amp; 2 &amp;   \\
+                           4 &amp;   &amp;   \\
+                             &amp;   &amp; 9  \end{array}  \right]
+&amp; , &amp;
+-\left[ \begin{array}{ccc}    &amp;   &amp; 3 \\
+                             &amp; 5 &amp;   \\
+                           7 &amp;   &amp;    \end{array}  \right]
+&amp; .
+\end{array}$$<p>The determinant of the above matrix is then given by 
+$$\begin{array}{ccl}
+ det(A) &amp; = &amp; +1\cdot 5\cdot 9 +  2 \cdot 6 \cdot 7 + 3 \cdot 4 \cdot 8 - 1
+\cdot 6 \cdot 8 - 2 \cdot 4 \cdot 9 - 3 \cdot 5 \cdot 7 \\
+&amp; = &amp; 0\end{array}$$</p>
+</blockquote>
+<p>For each of the following matrices, determine whether or not it has an
+inverse:</p>
+<ol>
+<li><p>$$A = \left[ \begin{array}{rrr}    3 &amp; -2 &amp;  1 \</p>
+
+<pre><code>                                 1 &amp;  5 &amp; -1 \\
+                                -1 &amp;  0 &amp;  0    \end{array} \right]$$</code></pre>
+</li>
+<li><p>$$B = \left[ \begin{array}{rrr}    4 &amp; -6 &amp;  1 \</p>
+
+<pre><code>                                 1 &amp; -3 &amp;  1 \\
+                                 2 &amp;  0 &amp; -1    \end{array} \right]$$</code></pre>
+</li>
+<li><p>Try to solve this by yourself first, and use Python to check your
+answer:</p>
+<p>$$C = \left[ \begin{array}{rrrr}  4 &amp; -2 &amp; -7 &amp;  6   \</p>
+
+<pre><code>                               -3 &amp;  0 &amp;  1 &amp;  0   \\
+                               -1 &amp; -1 &amp;  5 &amp; -1   \\
+                                0 &amp;  1 &amp; -5 &amp;  3
+</code></pre>
+<p>\end{array} \right]$$</p>
+</li>
+</ol>
+<p>The solutions to these exercises are available <a href="lab3_files/quizzes/det/det.html">here</a></p>
+<p>After solving the questions by hand, you can use Python to check your
+answer.</p>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Computational-cost-of-Gaussian-elimination">Computational cost of Gaussian elimination<a class="anchor-link" href="#Computational-cost-of-Gaussian-elimination">&#182;</a></h3><p>Although Gaussian elimination is a basic and relatively simple technique
+to find the solution of a linear system, it is a costly algorithm. Here
+is an operation count of this method:</p>
+<p>For a $n \times n$ matrix, there are two kinds of operations to
+consider:</p>
+<ol>
+<li><p><span>division ( *div*)</span> - to find the multiplier from a
+chosen pivot</p>
+</li>
+<li><p><span>multiplication-subtraction ( *mult/sub* )</span> - to
+calculate new entries for the matrix</p>
+</li>
+</ol>
+<p>Note that an addition or subtraction operation has negligible cost in
+relation to a multiplication or division operation. So the subtraction
+in this case can be treated as one with the multiplication operation.
+The first pivot is selected from the first row in the matrix. For each
+of the remaining rows, one div and $(n-1)$ mult/sub operations are used
+to find the new entries. So there are $n$ operations performed on each
+row. With $(n-1)$ rows, there are a total of $n(n-1) = n^{2}-n$
+operations associated with this pivot.</p>
+<p>Since the subtraction operation has negligible cost in relation to the
+multiplication operation, there are $(n-1)$ operations instead of
+$2(n-1)$ operations.
+For the second pivot, which is selected from the second row of the
+matrix, similar analysis is applied. With the remaining $(n-1)
+\times (n-1)$ matrix, each row has one div and $(n-2)$ mult/sub
+operations. For the whole process, there are a total of $(n-1)(n-2) =
+(n-1)^{2} - (n-1)$ operations.\</p>
+<p>For the rest of the pivots, the number of operations for a remaining
+$k \times k$ matrix is $k^{2} - k$.\</p>
+<p>The following is obtained when all the operations are added up:</p>
+$$\begin{array}{l} 
+(1^{2}+\ldots +n^{2}) - (1+\ldots +n) \\ \\
+= \frac{n(n+1)(2n+1)}{6} - \frac{n(n+1)}{2} \\ \\
+= \frac{n^{3}-n}{3} \\ \\
+\approx O(n^{3}) 
+\end{array}$$<p>As one can see, the Gaussian elimination is an $O(n^{3})$ algorithm. For
+large matrices, this can be prohibitively expensive. There are other
+methods which are more efficient, e.g. see <a href="#Iterative-Methods">Iterative Methods</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Problem-One">Problem One<a class="anchor-link" href="#Problem-One">&#182;</a></h4><p>Consider a very simple three box model of the movement of a pollutant in
+the atmosphere, fresh-water and ocean. The mass of the atmosphere is MA
+(5600 x 10$^{12}$ tonnes), the mass of the fresh-water is MF (360 x
+10$^{12}$tonnes) and the mass of the upper layers of the ocean is MO
+(50,000 x 10$^{12}$ tonnes). The amount of pollutant in the atmosphere
+is A, the amount in the fresh water is F and the amount in the ocean is
+O.</p>
+<p>The pollutant is going directly into the atmosphere at a rate P1 = 1000
+tonnes/year and into th efresh-water system at a rate P2 = 2000
+tonnes/year. The pollutant diffuses between the atmosphere and ocean at
+a rate depending linearly on the difference in concentration with a
+diffusion constant L1 = 200 tonnes/year. The diffusion between the
+fresh-water system and the atmosphere is faster as the fresh water is
+shallower, L2 = 500 tonnes/year. The fresh-water system empties into the
+ocean at the rate of Q = 36 x 10$^{12}$ tonnes/year. Lastly the
+pollutant decays (like radioactivity) at a rate L3 = 0.05 /year.</p>
+<p>See the graphical presentation of the cycle described above in
+Figure <a href="#Figure-Box-Model">Box Model</a> Schematic for Problem 1.</p>
+<ul>
+<li><p>a) Consider the steady state. There is no change in A, O, or F. Write
+down the three linear governing equations. Write the equations as an
+augmented matrix. Use Octave to find the solution.</p>
+</li>
+<li><p>b) Show mathematically that there is no solution to this problem with L3
+= 0. Why, physically, is there no solution?</p>
+</li>
+<li><p>c) Show mathematically that there is an infinite number of solutions if
+L3 = 0 and P1 = P2 = 0. Why, physically?</p>
+</li>
+<li><p>d) For part c) above, what needs to be specified in order to determine a
+single physical solution. How would you put this in the matrix equation.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src='images/C_cycle_problem.png' width='60%' /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div id="Figure-Box-Model">
+**Figure Box Model:** Schematic for [Problem One](#Problem-One).
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Eigenvalue-Problems">Eigenvalue Problems<a class="anchor-link" href="#Eigenvalue-Problems">&#182;</a></h2><p>This section is a review of eigenvalues and eigenvectors.</p>
+<h3 id="Characteristic-Equation">Characteristic Equation<a class="anchor-link" href="#Characteristic-Equation">&#182;</a></h3><p>The basic equation for eigenvalue problems is the characteristic
+equation, which is:</p>
+$$\det( A - \lambda I ) = 0$$<p>where $A$ is a square matrix, I is an identity the same size as $A$, and
+$\lambda$ is an eigenvalue of the matrix $A$.</p>
+<p>In order for a number to be an eigenvalue of a matrix, it must satisfy
+the characteristic equation, for example:</p>
+<h4 id="Example-Eight">Example Eight<a class="anchor-link" href="#Example-Eight">&#182;</a></h4><blockquote><p>Given</p>
+$$A = \left[ \begin{array}{rr}  3 &amp; -2 \\ -4 &amp; 5  \end{array} \right]$$<p>To find the eigenvalues of $A$, you need to solve the characteristic
+equation for all possible $\lambda$.</p>
+$$\begin{array}{ccl}
+0 &amp; = &amp; \det (A - \lambda I)  \\
+&amp; = &amp; \begin{array}{cccc}
+      \det &amp; \left( 
+      \left[ \begin{array}{rr}  3 &amp; -2 \\ -4 &amp; 5  \end{array} \right] \right. &amp;
+      - &amp;
+      \lambda \left. \left[ \begin{array}{rr} 1 &amp; 0 \\ 0 &amp; 1 \end{array} \right]   \right)
+    \end{array}   \\  \\
+&amp; = &amp; \begin{array}{cc}
+      \det &amp; 
+      \left[ \begin{array}{cc} 3-\lambda &amp; -2 \\ -4 &amp; 5-\lambda
+             \end{array}  \right]
+    \end{array}  \\  \\
+&amp; = &amp; \begin{array}{ccc} (3-\lambda)(5-\lambda) &amp; - &amp; (-2)(-4) 
+    \end{array}  \\  \\
+&amp; = &amp; (\lambda - 1)(\lambda - 7)  \\ \\
+\end{array}$$<p>So, $\lambda = 1 \mbox{ or } 7$, i.e. the eigenvalues of the matrix $A$
+are 1 and 7.</p>
+<p>You can use Python to check this answer.</p>
+</blockquote>
+<p>Find the eigenvalues of the following matrix:</p>
+$$B = \left[
+   \begin{array}{ccc}  3 &amp; 2 &amp; 4 \\ 2 &amp; 0 &amp; 2 \\ 4 &amp; 2 &amp; 3
+   \end{array}    \right]$$<p>The solution to this problem is available <a href="lab3_files/quizzes/char/char.html">here</a></p>
+<p>After solving the questions by hand, you can use Python to check your
+answer.</p>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Condition-Number">Condition Number<a class="anchor-link" href="#Condition-Number">&#182;</a></h4><p>The eigenvalues of a matrix $A$ can be used to calculate an
+approximation to the condition number $K$ of the matrix, i.e.</p>
+$$K \approx \left|  \frac{\lambda_{max}}{\lambda_{min}}  \right|$$<p>where $\lambda_{max}$ and $\lambda_{min}$ are the maximum and minimum
+eigenvalues of $A$. When $K$ is large, i.e. the $\lambda_{max}$ and
+$\lambda_{min}$ are far apart, then $A$ is ill-conditioned.</p>
+<p>The mathematical definition of $K$ is</p>
+$$K = \|A\|\|A^{-1}\|$$<p>where $\|\cdot\|$ represents the norm of a matrix.</p>
+<p>There are a few norms which can be chosen for the formula. The default one used
+in Python for finding $K$ is the 2-norm of the matrix. To see how to
+compute the norm of a matrix, see a linear algebra text. Nevertheless,
+the main concern here is the formula, and the fact that this can be very
+expensive to compute. Actually, the computing of $A^{-1}$ is the costly
+operation.</p>
+<p>Note: In Python, the results from the function <em>cond</em>($A$) can have
+round-off errors.</p>
+<p>For the matrices in this section (A from Example 8 and B just below it) for which you have 
+found the
+eigenvalues, use the built-in Python function <em>np.linalg.cond</em>($A$) to find $K$,
+and compare this result with the $K$ approximated from the eigenvalues.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Eigenvectors">Eigenvectors<a class="anchor-link" href="#Eigenvectors">&#182;</a></h3><p>Another way to look at the characteristic equation is using vectors
+instead of determinant. For a number to be an eigenvalue of a matrix, it
+must satisfy this equation:</p>
+$$( A - \lambda I ) x = 0$$<p>where $A$ is a $n \times n$ square matrix, $I$ is an identity matrix the
+same size as $A$, $\lambda$ is an eigenvalue of $A$, and $x$ is a
+non-zero vector associated with the particular eigenvalue that will make
+this equation true. This vector is the eigenvector. The eigenvector is
+not necessarily unique for an eigenvalue. This will be further discussed
+below after the example.</p>
+<p>The above equation can be rewritten as:</p>
+$$A x = \lambda x$$<p>For each eigenvalue of $A$, there is a corresponding eigenvector. Below
+is an example.</p>
+<h4 id="Example-Nine">Example Nine<a class="anchor-link" href="#Example-Nine">&#182;</a></h4><blockquote><p>Following the example from the previous section:</p>
+$$A = \left[ \begin{array}{rr}  3 &amp; -2 \\ -4 &amp; 5  \end{array} \right]$$<p>The eigenvalues, $\lambda$, for this matrix are 1 and 7. To find the
+eigenvectors for the eigenvalues, you need to solve the equation:</p>
+$$( A - \lambda I ) x = 0.$$<p></p>
+<p>This is just a linear system $A^{\prime}x = b$, where
+$A^{\prime} = ( A - \lambda I )$, $b = 0$. To find the eigenvectors, you
+need to find the solution to this augmented matrix for each $\lambda$
+respectively,</p>
+$$\begin{array}{cl}
+&amp; ( A - \lambda I ) x = 0 \ \ \ \ \ \ \ \ {\rm where} \ \ \ \ \ \ \lambda = 1 \\
+\; &amp; \; \\
+\rightarrow &amp; 
+\left( \begin{array}{ccc} 
+        \left[ \begin{array}{rr}  3 &amp; -2 \\ -4 &amp; 5 \end{array} \right] 
+        &amp; - &amp;
+        1 \left[ \begin{array}{cc} 1 &amp; 0 \\ 0 &amp; 1 \end{array} \right]
+\end{array} \right) x = 0   \\   \\
+\rightarrow &amp;
+\left[ \begin{array}{cc}
+    \begin{array}{rr}  2 &amp; -2 \\ -4 &amp; 4 \end{array}
+    &amp; \left| \begin{array}{c} 0 \\ 0  \end{array}  \right]
+\end{array}   \right.  \\  \\ 
+\rightarrow &amp;
+\left[ \begin{array}{cc}
+    \begin{array}{rr}  1 &amp; -1 \\ 0 &amp; 0 \end{array}
+    &amp; \left| \begin{array}{c} 0 \\ 0  \end{array}  \right]
+\end{array}   \right.
+\end{array}$$<p>Reading from the matrix,</p>
+$$\begin{array}{ccccc} x_1 &amp; - &amp; x_2 &amp; = &amp; 0  \\
+                            &amp;   &amp;   0 &amp; = &amp; 0 \end{array}$$<p>As mentioned before, the eigenvector is not unique for a given
+eigenvalue. As seen here, the solution to the matrix is a description of
+the direction of the vectors that will satisfy $Ax = \lambda x$. Letting
+$x_1 = 1$, then $x_2 = 1$. So the vector (1, 1) is an eigenvector for
+the matrix $A$ when $\lambda = 1$. (So is (-1,-1), (2, 2), etc)\</p>
+<p>In the same way for $\lambda = 7$, the solution is</p>
+$$\begin{array}{ccccc} 2 x_1 &amp; + &amp; x_2 &amp; = &amp; 0  \\
+                            &amp;   &amp;    0 &amp; = &amp; 0 \end{array}$$<p>So an eigenvector here is x = (1, -2).</p>
+<p>Using Python:</p>
+</blockquote>
+
+<pre><code>A = np.array([[3, -2], [-4, 5]])
+lamb, x = np.linalg.eig(A)
+print(lamb)
+print (x)
+
+[ 1.  7.]
+[[-0.70710678  0.4472136 ]
+ [-0.70710678 -0.89442719]]
+
+</code></pre>
+<blockquote><p>Matrix $x$ is the same size a $A$ and vector $lamb$ is the size of one dimension of $A$. Each column of
+$x$ is a unit eigenvector of $A$, and $lamb$ values
+are the eigenvalues of $A$. Reading from the result, for $\lambda$ = 1,
+the corresponding unit eigenvector is (-0.70711, -0.70711). The answer
+from working out the example by hand is (1, 1), which is a multiple of
+the unit eigenvector from Python.</p>
+<p>(The unit eigenvector is found by dividing the eigenvector by its
+magnitude. In this case, $\mid$(1,1)$\mid$ = $\sqrt{1^2 +
+  1^2}$ = $\sqrt{2}$, and so the unit eigenvector is
+($\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}$) ).</p>
+<p>Remember that the solution for an eigenvector is not the unique answer;
+it only represents a <em>direction</em> for an eigenvector corresponding to a
+given eigenvalue.</p>
+</blockquote>
+<p>What are the eigenvectors for the matrix $B$ from the previous section?</p>
+$$B = \left[
+   \begin{array}{ccc}  3 &amp; 2 &amp; 4 \\ 2 &amp; 0 &amp; 2 \\ 4 &amp; 2 &amp; 3
+   \end{array}    \right]$$<p>The solution to this problem is available <a href="lab3_file/quizzes/eigvec/eigvec.html">here</a></p>
+<p>After solving the questions by hand, you can use Python to check your
+answer.</p>
+<div style="padding-top:1.5cm">
+<span style='font-size:7em'>&#x1F43E;</span> 
+</div><p><a href="#Numpy-and-Python-with-Matrices">Numpy and Python with Matrices</a></p>
+<p>Although the method used here to find the eigenvalues is a direct way to
+find the solution, it is not very efficient, especially for large
+matrices. Typically, iterative methods such as the Power Method or the
+QR algorithm are used (see a linear algebra text such as <a href="#Ref:Strang88">Strang (1988)</a>
+for more details).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Iterative-Methods">Iterative Methods<a class="anchor-link" href="#Iterative-Methods">&#182;</a></h2><p>So far, the only method we’ve seen for solving systems of linear
+equations is Gaussian Elimination (with its pivoting variants), which is
+only one of a class of <em>direct methods</em>. This name derives from the fact
+that the Gaussian Elimination algorithm computes the exact solution
+<em>directly</em>, in a finite number of steps. Other commonly-used direct
+methods are based on matrix decomposition or factorizations different
+from the $LU$ decomposition (see Section <a href="#Decomposition">Decomposition</a>); for
+example, the $LDL^T$ and Choleski factorizations of a matrix. When the
+system to be solved is not too large, it is usually most efficient to
+employ a direct technique that minimizes the effects of round-off error
+(for example, Gaussian elimination with full pivoting).</p>
+<p>However, the matrices that occur in the discretization of differential
+equations are typically <em>very large</em> and <em>sparse</em> – that is, a large
+proportion of the entries in the matrix are zero. In this case, a direct
+algorithm, which has a cost on the order of $N^3$ multiplicative
+operations, will be spending much of its time inefficiently, operating
+on zero entries. In fact, there is another class of solution algorithms
+called <em>iterative methods</em> which exploit the sparsity of such systems to
+reduce the cost of the solution procedure, down to order $N^2$ for
+<em>Jacobi’s method</em>, the simplest of the iterative methods (see Lab #8 )
+and as low as order $N$ (the optimal order) for <em>multigrid methods</em>
+(which we will not discuss here).</p>
+<p>Iterative methods are based on the principle of computing an approximate
+solution to a system of equations, where an iterative procedure is
+applied to improve the approximation at every iteration. While the exact
+answer is never reached, it is hoped that the iterative method will
+approach the answer more rapidly than a direct method. For problems
+arising from differential equations, this is often possible since these
+methods can take advantage of the presence of a large number of zeroes
+in the matrix. Even more importantly, most differential equations are
+only approximate models of real physical systems in the first place, and
+so in many cases, an approximation of the solution is sufficient!!!</p>
+<p>None of the details of iterative methods will be discussed in this Lab.
+For now it is enough to know that they exist, and what type of problems
+they are used for. Neither will we address the questions: <em>How quickly
+does an iterative method converge to the exact solution?</em>, <em>Does it
+converge at all?</em>, and <em>When are they more efficient than a direct
+method?</em> Iterative methods will be discussed in more detail in Lab #8 ,
+when a large, sparse system appears in the discretization of a PDE
+describing the flow of water in the oceans.</p>
+<p>For even more details on iterative methods, you can also look at <a href="#Ref:Strang88">Strang (1988)</a> [p. 403ff.], or one of the several books listed in the
+Readings section from Lab #8 .</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Solution-of-an-ODE-Using-Linear-Algebra">Solution of an ODE Using Linear Algebra<a class="anchor-link" href="#Solution-of-an-ODE-Using-Linear-Algebra">&#182;</a></h2><p>So far, we’ve been dealing mainly with matrices with dimensions
+$4\times 4$ at the greatest. If this was the largest linear system that
+we ever had to solve, then there would be no need for computers –
+everything could be done by hand! Nevertheless, even very simple
+differential equations lead to large systems of equations.</p>
+<p>Consider the problem of finding the steady state heat distribution in a
+one-dimensional rod, lying along the $x$-axis between 0 and 1. We saw in
+Lab #1  that the temperature, $u(x)$, can be described by a boundary
+value problem, consisting of the ordinary differential equation
+$$u_{xx} = f(x),$$ along with boundary values $$u(0)=u(1) = 0.$$ The
+only difference between this example and the one from Lab #1 is that
+the right hand side function, $f(x)$, is non-zero, which corresponds to
+a heat source being applied along the length of the rod. The boundary
+conditions correspond to the ends of the rod being held at constant
+(zero) temperature – this type of condition is known as a fixed or
+<em>Dirichlet</em> boundary condition.</p>
+<p>If we discretize this equation at $N$ discrete points, $x_i=id$,
+$i=0,1,\dots,N$, where $d = 1/N$ is the grid spacing, then the ordinary
+differential equation can be approximated at a point $x_i$ by the
+following system of linear equations:</p>
+<div id='lab3:eq:diff-ode'>
+(Discrete Differential Equation)
+$$\frac{u_{i+1} - 2u_i+u_{i-1}}{d^2} = f_i,$$ 
+</div>
+where $f_i=f(x_i)$, and $u_i\approx u(x_i)$
+is an approximation of the steady state temperature at the discrete
+points. If we write out all of the equations, for the unknown values
+$i=1,\dots,N-1$, along with the boundary conditions at $i=0,N$, we
+obtain the following set of $N+1$ equations in $N+1$ unknowns:
+<div id='lab3:eq:diff-system'>
+(Differential System)
+$$\begin{array}{ccccccccccc}
+  u_0 & &     & &       & &         & &     &=& 0 \\
+  u_0 &-&2u_1 &+&  u_2  & &         & &     &=& d^2 f_1\\
+      & & u_1 &-& 2u_2  &+& u_3     & &     &=& d^2f_2\\
+      & &     & &       & & \dots   & &     &=& \\
+      & &     & &u_{N-2}&-& 2u_{N-1}&+& u_N &=& d^2f_{N-1}\\
+      & &     & &       & &         & & u_N &=& 0
+\end{array}$$
+</div><p>Remember that this system, like any other linear system, can be written
+in matrix notation as</p>
+<div id='lab3:eq:dir-system'>
+(Differential System Matrix)
+$$\underbrace{\left[
+      \begin{array}{ccccccccc}
+        1&  0  & & \dots  & & & & & 0 \\
+        1& {-2} & {1} & {0} & {\dots} & && &  \\
+        0& {1} & {-2} &  {1} & {0} & {\dots} & & &  \\
+        & {0} & {1}  & {-2} & {1} & {0} & {\dots} & &  \\
+        & & & & & & & & \\
+        \vdots & & & {\ddots} & {\ddots} & {\ddots} & {\ddots} & {\ddots} & \vdots \\
+        & & & & & & & & \\
+        & & & {\dots} & {0} & {1} & {-2} & {1} & 0 \\
+        & &  & &{\dots} & {0} & {1} & {-2} & 1 \\
+        0& & & & & \dots & & 0 & 1      
+      \end{array}
+    \right]
+    }_{A_1}
+  \underbrace{\left[
+      \begin{array}{c}
+        u_0 \\ {u_1} \\ {u_2} \\ {u_3} \\ \ \\ {\vdots} \\ \
+        \\ {u_{N-2}} \\ {u_{N-1}} \\ u_N
+      \end{array}
+    \right]
+    }_{U}
+  = 
+    \underbrace{\left[
+      \begin{array}{c}
+        0 \\ {d^2 f_1} \\ {d^2 f_2} \\ {d^2 f_3} \\ \ \\
+        {\vdots} \\ \ \\ {d^2 f_{N-2}} \\ {d^2 f_{N-1}} \\ 0 
+      \end{array}
+    \right] 
+    }_{F}$$
+</div><p>or, simply $A_1 U = F$.</p>
+<p>One question we might ask is: <em>How well-conditioned is the matrix
+$A_1$?</em> or, in other words, <em>How easy is this system to solve?</em> To
+answer this question, we leave the right hand side, and consider only
+the matrix and its condition number. The size of the condition number is
+a measure of how expensive it will be to invert the matrix and hence
+solve the discrete boundary value problem.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Problem-Two">Problem Two<a class="anchor-link" href="#Problem-Two">&#182;</a></h4><blockquote><p>a) Using Python, compute the condition number for
+the matrix $A_1$ from Equation <a href="#lab3:eq:dir-system">Differential System Matrix</a> for several values of $N$
+between 5 and 50. ( <strong>Hint:</strong> This will be much easier if you write a
+small Python function that outputs the matrix $A$ for a given value of
+$N$.)</p>
+<p>b) Can you conjecture how the condition number of $A_1$ depends on $N$?</p>
+<p>c) Another way to write the system of equations is to substitute the
+boundary conditions into the equations, and thereby reduce size of the
+problem to one of $N-1$ equations in $N-1$ unknowns. The corresponding
+matrix is simply the $N-1$ by $N-1$ submatrix of $A_1$
+from Equation <a href="#lab3:eq:dir-system">Differential System Matrix</a> $$A_2 = \left[
+      \begin{array}{ccccccc}
+        -2 &amp;  1 &amp;  0 &amp; \dots &amp; &amp;&amp; 0 \\
+        1 &amp; -2 &amp;  1 &amp; 0 &amp; \dots &amp; &amp; \\
+        0 &amp; 1  &amp; -2 &amp; 1 &amp; 0 &amp; \dots &amp;  \\
+        &amp; &amp; &amp; &amp; &amp; &amp; \\
+        \vdots &amp; &amp; \ddots &amp; \ddots&amp; \ddots &amp; \ddots &amp; \vdots\\
+        &amp; &amp; &amp; &amp; &amp; &amp; 0 \\
+        &amp; &amp; \dots &amp; 0 &amp; 1 &amp; -2 &amp; 1 \\
+        0&amp;  &amp; &amp;\dots &amp; 0 &amp; 1 &amp; -2 \\
+      \end{array}
+    \right]
+$$ Does this change in the matrix make a significant difference in the
+condition number?</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So far, we’ve only considered zero Dirichlet boundary values,
+$u_0=0=u_N$. Let’s look at a few more types of boundary values …</p>
+<p><strong>Fixed (non-zero) boundary conditions:</strong></p>
+<blockquote><p>If we fixed the solution at the boundary to be some non-zero values,
+    say by holding one end at temperature $u_0=a$, and the other at
+    temperature $u_N=b$, then the matrix itself is not affected. The
+    only thing that changes in Equation <a href="#lab3:eq:dir-system">Differential System</a> 
+    is that
+    a term $a$ is subtracted from the right hand side of the second
+    equation, and a term $b$ is subtracted from the RHS of the
+    second-to-last equation. It is clear from what we’ve just said that
+    non-zero Dirichlet boundary conditions have no effect at all on the
+    matrix $A_1$ (or $A_2$) since they modify only the right hand side.</p>
+</blockquote>
+<p><strong>No-flow boundary conditions:</strong></p>
+<blockquote><p>These are conditions on the first derivative of the temperature
+    $$u_x(0) = 0,$$ $$u_x(1) = 0,$$ which are also known as <em>Neumann</em>
+    boundary conditions. The requirement that the first derivative of
+    the temperature be zero at the ends corresponds physically to the
+    situation where the ends of the rod are <em>insulated</em>; that is, rather
+    than fixing the temperature at the ends of the rod (as we did with
+    the Dirichlet problem), we require instead that there is no heat
+    flow in or out of the rod through the ends.</p>
+<p>There is still one thing that is missing in the mathematical
+    formulation of this problem: since only derivatives of $u$ appear in
+    the equations and boundary conditions, the solution is determined
+    only up to a constant, and for there to be a unique solution, we
+    must add an extra condition. For example, we could set
+    $$u \left(\frac{1}{2} \right) = constant,$$ or, more realistically,
+    say that the total heat contained in the rod is constant, or
+    $$\int_0^1 u(x) dx = constant.$$</p>
+<p>Now, let us look at the discrete formulation of the above problem …</p>
+<p>The discrete equations do not change, except for that discrete
+    equations at $i=0,N$ replace the Dirichlet conditions in Equation <a href="#lab3:eq:diff-system">Differential System</a>:
+    <div id='lab3:eq:neumann-over'>
+    (Neumann Boundary Conditions)
+    $$u_{-1} - 2u_0 +u_{1} = d^2f_0 \quad {\rm and} \quad
+        u_{N-1} - 2u_N +u_{N+1} = d^2f_N $$ 
+    </div>
+        where we have introduced the
+    additional <em>ghost points</em>, or <em>fictitious points</em> $u_{-1}$ and
+    $u_{N+1}$, <em>lying outside the boundary</em>. The temperature at these
+    ghost points can be determined in terms of values in the interior
+    using the discrete version of the Neumann boundary conditions
+    $$\frac{u_{-1} - u_1}{2d} = 0 \;\; \Longrightarrow \;\; u_{-1}  = u_1,$$
+    $$\frac{u_{N+1} - u_{N-1}}{2d} = 0 \;\; \Longrightarrow \;\; u_{N+1} = u_{N-1}.$$
+    Substitute these back into the <a href="#lab3:eq:neumann-over">Newmann Boundary Conditions</a> to obtain
+    $$- 2u_0 + 2 u_1 =d^2 f_0 \quad {\rm and} \quad</p>
+
+<pre><code>     + 2u_{N-1} - 2 u_N =d^2 f_N .$$ In this case, the matrix is an
+$N+1$ by $N+1$ matrix, almost identical to Equation [Differential System Matrix](#lab3:eq:dir-system),
+but with the first and last rows slightly modified $$A_3 = \left[
+      \begin{array}{ccccccc}
+        -2 &amp;  2 &amp;  0 &amp; \dots &amp; &amp;&amp; 0 \\
+        1 &amp; -2 &amp;  1 &amp; 0 &amp; \dots &amp; &amp; 0\\
+        0 &amp; 1  &amp; -2 &amp; 1 &amp; 0 &amp; \dots &amp; 0\\
+        &amp; &amp; &amp; &amp; &amp; &amp; \\
+        &amp; &amp; &amp; \ddots&amp; \ddots &amp; \ddots &amp;  \\        
+        &amp; &amp; &amp; &amp; &amp; &amp; \\
+        0 &amp; &amp; \dots &amp; 0 &amp; 1 &amp; -2 &amp; 1 \\
+        0 &amp;  &amp; &amp;\dots &amp; 0 &amp; 2 &amp; -2
+      \end{array}
+    \right]$$ 
+This system is *not solvable*; that is, the $A_3$ above is
+singular ( *try it in Python to check for yourself … this should be
+easy by modifying the code from [Problem 2](#Problem-Two)).
+This is a discrete analogue of the fact that the continuous solution
+is not unique. The only way to overcome this problem is to add
+another equation for the unknown temperatures.</code></pre>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Physically the reason the problem is not unique is that we don’t know
+how hot the rod is. If we think of the full time dependent problem:</p>
+<p>1) given fixed temperatures at the end points of the rod (Dirichlet),
+whatever the starting temperature of the rod, eventually the rod will
+reach equilibrium. with a temperature smoothly varying between the
+values (given) at the end points.</p>
+<p>2) However, if the rod is insulated (Neumann), no heat can escape and
+the final temperature will be related to the initial temperature. To
+solve this problem we need to know the steady state,</p>
+<p>a) the initial temperature of the rod,</p>
+<p>b) the total heat of the rod,</p>
+<p>c) or a final temperature at some point of the rod.</p>
+<h4 id="Problem-Three">Problem Three<a class="anchor-link" href="#Problem-Three">&#182;</a></h4><blockquote><p>How can we make the discrete Neumann problem
+solvable? Think in terms of discretizing the <em>solvability conditions</em>
+$u(\frac{1}{2}) = c$ (condition c) above), or $\int_0^1 u(x) dx = c$
+(condition b) above), (the integral condition can be thought of as an
+<em>average</em> over the domain, in which case we can approximate it by the
+discrete average $\frac{1}{N}(u_0+u_1+\dots+u_N)=c$).</p>
+<p>a) Derive the
+matrix corresponding to the linear system to be solved in both of these
+cases.</p>
+<p>b) How does the conditioning of the resulting matrix depend on the the
+size of the system?</p>
+<p>c) Is it better or worse than for Dirichlet boundary conditions?</p>
+</blockquote>
+<p><strong>Periodic boundary conditions:</strong></p>
+<blockquote><p>This refers to the requirement that the temperature at both ends
+    remains the same: $$u(0) = u(1).$$ Physically, you can think of this
+    as joining the ends of the rod together, so that it is like a
+    <em>ring</em>. From what we’ve seen already with the other boundary
+    conditions, it is not hard to see that the discrete form of the
+    one-dimensional diffusion problem with periodic boundary conditions
+    leads to an $N\times N$ matrix of the form $$A_4 = \left[
+          \begin{array}{ccccccc}
+            -2 &amp;  1 &amp;  0 &amp; \dots &amp; &amp;&amp; 1 \\
+            1 &amp; -2 &amp;  1 &amp; 0 &amp; \dots &amp; &amp; 0\\
+            0 &amp; 1  &amp; -2 &amp; 1 &amp; 0 &amp; \dots &amp; 0\\
+            &amp; &amp; &amp; &amp; &amp; &amp; \\
+            &amp; &amp; &amp; \ddots&amp; \ddots &amp; \ddots &amp;  \\        
+            &amp; &amp; &amp; &amp; &amp; &amp; \\
+            0 &amp; &amp; \dots &amp; 0 &amp; 1 &amp; -2 &amp; 1 \\
+            1 &amp;  &amp; &amp;\dots &amp; 0 &amp; 1 &amp; -2
+          \end{array}
+        \right],
+    $$ where the unknown temperatures are now $u_i$, $i=0,1,\dots, N-1$.
+    The major change to the form of the matrix is that the elements in
+    the upper right and lower left corners are now 1 instead of 0. Again
+    the same problem of the invertibility of the matrix comes up. This
+    is a symptom of the fact that the continuous problem does not have a
+    unique solution. It can also be remedied by tacking on an extra
+    condition, such as in the Neumann problem above.</p>
+</blockquote>
+<h4 id="Problem-Four">Problem Four<a class="anchor-link" href="#Problem-Four">&#182;</a></h4><hr>
+<blockquote><p>a) Derive the matrix $A_4$ above using the discrete
+form <a href="#lab3:eq:diff-ode">Discrete Differential Equation</a> of the differential equation and the periodic
+boundary condition.</p>
+<p>b) For the periodic problem (with the extra integral condition on the
+temperature) how does the conditioning of the matrix compare to that for
+the other two discrete problems?</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h4><p>As you will have found in these problems, the boundary conditions can
+have an influence on the conditioning of a discrete problem.
+Furthermore, the method of discretizing the boundary conditions may or
+may not have a large effect on the condition number. Consequently, we
+must take care when discretizing a problem in order to obtain an
+efficient numerical scheme.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><p>&lt;/div&gt;<div id="Ref:Strang86">
+Strang, G., 1986: Introduction to Applied Mathematics. Wellesley-Cambridge Press, Wellesley, MA.
+</div>
+&lt;/div&gt;<div id="Ref:Strang88">
+Strang, G., 1988: Linear Algebra and its Applications. Harcourt Brace Jovanovich, San Diego, CA, 2nd edition.
+</div></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Numpy-and-Python-with-Matrices">Numpy and Python with Matrices<a class="anchor-link" href="#Numpy-and-Python-with-Matrices">&#182;</a></h2><p><strong>To start, import numpy,</strong></p>
+<p>Enter:</p>
+<blockquote><p>import numpy as np</p>
+</blockquote>
+<p><strong>To enter a matrix,</strong> 
+$$ A = \left[ \begin{array}{ccc} a, &amp; b, &amp; c \\
+                            d, &amp; e, &amp; f \end{array} \right] $$
+Enter:</p>
+<blockquote><p>A = np.array([[a, b, c], [d, e, f]])</p>
+</blockquote>
+<p><strong>To add two matrices,</strong>
+$$ C = A + B$$</p>
+<p>Enter:</p>
+<blockquote><p>C = A + B</p>
+</blockquote>
+<p><strong>To multiply two matrices,</strong>
+$$ C = A \cdot B $$</p>
+<p>Enter:</p>
+<blockquote><p>C = np.dot(A, B)</p>
+</blockquote>
+<p><strong>To find the tranpose of a matrix,</strong>
+$$ C = A^{T} $$</p>
+<p>Enter:</p>
+<blockquote><p>C = A.tranpose()</p>
+</blockquote>
+<p><strong>To find the condition number of a matrix,</strong></p>
+<blockquote><p>K = np.linalg.cond(A)</p>
+</blockquote>
+<p><strong>To find the inverse of a matrix,</strong>
+$$ C = A^{-1} $$</p>
+<p>Enter:</p>
+<blockquote><p>C = np.linalg.inv(A)</p>
+</blockquote>
+<p><strong>To find the determinant of a matrix,</strong>
+$$ K = |A|$$</p>
+<p>Enter:</p>
+<blockquote><p>K = np.linalg.det(A)</p>
+</blockquote>
+<p><strong>To find the eigenvalues of a matrix,</strong></p>
+<p>Enter:</p>
+<blockquote><p>lamb = np.linalg.eigvals(A)</p>
+</blockquote>
+<p><strong>To find the eigenvalues (lamb) and eigenvectors (x) of a matrix,</strong></p>
+<p>Enter:</p>
+<blockquote><p>lamb, x = np.linalg.eig(A)</p>
+</blockquote>
+<p>lamb[i] are the eigenvalues and x[:, i] are the eigenvectors.</p>
+<p><strong>To print a matrix,</strong>
+$$C$$</p>
+<p>Enter:</p>
+<blockquote><p>print (C)</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Glossary">Glossary<a class="anchor-link" href="#Glossary">&#182;</a></h2><p><strong>A</strong></p>
+<p>augmented matrix</p>
+<blockquote><p>The $m \times (n+1)$ matrix representing a linear system,
+    $Ax = b$, with the right hand side vector appended to the
+    coefficient matrix: $$\left[ 
+    \begin{array}{cc}
+            \begin{array}{ccccc} 
+                    a_{11} &amp; &amp; \ldots &amp; &amp; a_{1n} \\
+                    \vdots &amp; &amp; \ddots &amp; &amp; \vdots \\
+                    a_{m1} &amp; &amp; \ldots &amp; &amp; a_{mn} 
+            \end{array}
+    &amp;
+            \left| 
+            \begin{array}{rc}
+                    &amp; b_{1} \\ &amp; \vdots \\ &amp; b_{m}
+            \end{array} 
+            \right. 
+    \end{array}
+    \right]$$</p>
+<p>The right most column is the right hand side vector or augmented
+    column.</p>
+</blockquote>
+<p><strong>C</strong></p>
+<p>characteristic equation</p>
+<blockquote><p>The equation:
+    $$\det(A - \lambda I) = 0 , \ \ \ \  or \ \ \ \ Ax = \lambda x$$
+    where $A$ is a <em>square matrix</em>, $I$ is the <em>identity matrix</em>,
+    $\lambda$ is an <em>eigenvalue</em> of $A$, and $x$ is the corresponding
+    <em>eigenvector</em> of $\lambda$.</p>
+</blockquote>
+<p>coefficient matrix</p>
+<blockquote><p>A $m \times n$ matrix made up with the coefficients $a_{ij}$ of the
+    $n$ unknowns from the $m$ equations of a set of linear equations,
+    where $i$ is the row index and $j$ is the column index: $$\left[
+    \begin{array}{ccccccc}
+                    &amp; a_{11} &amp; &amp; \ldots &amp; &amp; a_{1n} &amp; \\
+                    &amp; \vdots &amp; &amp; \ddots &amp; &amp; \vdots &amp; \\
+                    &amp; a_{m1} &amp; &amp; \ldots &amp; &amp; a_{mn} &amp;
+            \end{array}
+    \right]$$</p>
+</blockquote>
+<p>condition number</p>
+<blockquote><p>A number, $K$, that refers to the sensitivity of a <em>nonsingular</em>
+    matrix, $A$, i.e. given a system $Ax = b$, $K$ reflects whether
+    small changes in $A$ and $b$ will have any effect on the solution.
+    The matrix is well-conditioned if $K$ is close to one. The number is
+    described as: $$K(A) = \|A\| \|A^{-1}\| 
+            \ \ \ \  or \ \ \ \
+    K(A) = \frac{\lambda_{max}}{\lambda_{min}}$$ where $\lambda_{max}$
+    and $\lambda_{min}$ are largest and smallest <em>eigenvalues</em> of $A$
+    respectively.</p>
+</blockquote>
+<p><strong>D</strong></p>
+<p>decomposition</p>
+<blockquote><p>Factoring a matrix, $A$, into two factors, e.g., the Gaussian
+    elimination amounts to factoring $A$ into a product of two matrices.
+    One is the lower triangular matrix, $L$, and the other is the upper
+    triangular matrix, $U$.</p>
+</blockquote>
+<p>diagonal matrix</p>
+<blockquote><p>A square matrix with the entries $a_{ij} = 0 $ whenever $i \neq j$.</p>
+</blockquote>
+<p><strong>E</strong></p>
+<p>eigenvalue</p>
+<blockquote><p>A number, $\lambda$, that must satisfy the <em>characteristic equation</em>
+    $\det(A - \lambda I) = 0.$</p>
+</blockquote>
+<p>eigenvector</p>
+<blockquote><p>A vector, $x$, which corresponds to an <em>eigenvalue</em> of a <em>square
+    matrix</em> $A$, satisfying the characteristic equation:
+    $$Ax = \lambda x .$$</p>
+</blockquote>
+<p><strong>H</strong></p>
+<p>homogeneous equations</p>
+<blockquote><p>A set of linear equations, $Ax = b$ with the zero vector on the
+    right hand side, i.e. $b = 0$.</p>
+</blockquote>
+<p><strong>I</strong></p>
+<p>inhomogeneous equations</p>
+<blockquote><p>A set of linear equations, $Ax = b$ such that $b \neq 0$.</p>
+</blockquote>
+<p>identity matrix</p>
+<blockquote><p>A <em>diagonal matrix</em> with the entries $a_{ii} = 1$:
+    $$\left[ \begin{array}{ccccccc}
+            &amp; 1 &amp; 0 &amp; \ldots &amp; \ldots &amp; 0 &amp;  \\
+            &amp; 0 &amp; 1 &amp; \ddots &amp; &amp; \vdots &amp; \\
+            &amp; \vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots \\
+            &amp; \vdots &amp; &amp; \ddots &amp; 1 &amp; 0 &amp; \\
+            &amp; 0 &amp; \ldots &amp; \ldots &amp; 0 &amp; 1 &amp;
+       \end{array} \right]$$</p>
+</blockquote>
+<p>ill-conditioned matrix</p>
+<blockquote><p>A matrix with a large <em>condition number</em>, i.e., the matrix is not
+    well-behaved, and small errors to the matrix will have great effects
+    to the solution.</p>
+</blockquote>
+<p>invertible matrix</p>
+<blockquote><p>A square matrix, $A$, such that there exists another matrix,
+    $A^{-1}$, which satisfies:
+    $$AA^{-1} = I \ \ \ \ and \ \ \ \  A^{-1}A = I$$</p>
+<p>The matrix, $A^{-1}$, is the <em>inverse</em> of $A$. An invertible matrix
+    is <em>nonsingular</em>.</p>
+</blockquote>
+<p><strong>L</strong></p>
+<p>linear system</p>
+<blockquote><p>A set of $m$ equations in $n$ unknowns: $$\begin{array}{ccccccc}
+    a_{11}x_{1} &amp; + &amp; \ldots &amp; + &amp; a_{1n}x_{n} &amp; = &amp; b_{1} \\
+    a_{21}x_{1} &amp; + &amp; \ldots &amp; + &amp; a_{2n}x_{n} &amp; = &amp; b_{2} \\
+                &amp;   &amp; \vdots &amp;   &amp;             &amp;   &amp; \vdots \\
+    a_{m1}x_{1} &amp; + &amp; \ldots &amp; + &amp; a_{mn}x_{n} &amp; = &amp; b_{m} 
+    \end{array}$$ with unknowns $x_{i}$ and coefficients
+    $a_{ij}, b_{j}$.</p>
+</blockquote>
+<p>lower triangular matrix</p>
+<blockquote><p>A square matrix, $L$, with the entries $l_{ij} = 0$, whenever
+    $j &gt; i$: $$\left[
+    \begin{array}{ccccccc}
+             &amp; * &amp; 0 &amp; \ldots &amp; \ldots &amp; 0 &amp; \\
+             &amp; * &amp; * &amp; \ddots &amp; &amp; \vdots &amp; \\
+             &amp; \vdots &amp;  &amp; \ddots &amp; \ddots &amp; \vdots &amp; \\
+             &amp; \vdots &amp;  &amp; &amp; * &amp; 0 &amp; \\
+             &amp; * &amp; \ldots &amp; \ldots &amp; \ldots &amp; * &amp;
+    \end{array}
+    \right]$$</p>
+</blockquote>
+<p><strong>N</strong></p>
+<p>nonsingular matrix</p>
+<blockquote><p>A square matrix,$A$, that is invertible, i.e. the system $Ax = b$
+    has a <em>unique solution</em>.</p>
+</blockquote>
+<p><strong>S</strong></p>
+<p>singular matrix</p>
+<blockquote><p>A $n \times n$ matrix that is degenerate and does not have an
+    inverse (refer to <em>invertible</em>), i.e., the system $Ax = b$ does not
+    have a <em>unique solution</em>.</p>
+</blockquote>
+<p>sparse matrix</p>
+<blockquote><p>A matrix with a high percentage of zero entries.</p>
+</blockquote>
+<p>square matrix</p>
+<blockquote><p>A matrix with the same number of rows and columns.</p>
+</blockquote>
+<p><strong>T</strong></p>
+<p>transpose</p>
+<blockquote><p>A $n \times m$ matrix, $A^{T}$, that has the columns of a
+    $m \times n$ matrix, $A$, as its rows, and the rows of $A$ as its
+    columns, i.e. the entry $a_{ij}$ in $A$ becomes $a_{ji}$ in $A^{T}$,
+    e.g.</p>
+<p>$$A = 
+    \left[ \begin{array}{ccc} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \end{array} \right] 
+    \ \  \rightarrow \ \ 
+    A^{T} = 
+    \left[ \begin{array}{cc} 1 &amp; 4 \\ 2 &amp; 5 \\ 3 &amp; 6 \end{array} \right]$$</p>
+</blockquote>
+<p>tridiagonal matrix</p>
+<blockquote><p>A square matrix with the entries $a_{ij} = 0$, $| i-j | &gt; 1 $:</p>
+<p>$$\left[
+    \begin{array}{cccccccc}
+             &amp; * &amp; * &amp; 0 &amp; \ldots &amp; \ldots &amp; 0 &amp; \\
+             &amp; * &amp; * &amp; * &amp; \ddots &amp; &amp; \vdots &amp; \\
+             &amp; 0 &amp; * &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots &amp; \\
+             &amp; \vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; * &amp; 0 &amp; \\
+             &amp; \vdots &amp; &amp; \ddots &amp; * &amp; * &amp; * &amp; \\
+             &amp; 0 &amp; \ldots &amp; \ldots &amp; 0 &amp; * &amp; * &amp;
+    \end{array}
+    \right]$$</p>
+</blockquote>
+<p><strong>U</strong></p>
+<p>unique solution</p>
+<blockquote><p>There is only solution, $x$, that satisfies a particular linear
+    system, $Ax = b$, for the given $A$. That is, this linear system has
+    exactly one solution. The matrix $A$ of the system is <em>invertible</em>
+    or <em>nonsingular</em>.</p>
+</blockquote>
+<p>upper triangular matrix</p>
+<blockquote><p>A square matrix, $U$, with the entries $u_{ij} = 0$ whenever
+    $i &gt; j$:</p>
+<p>$$\left[
+    \begin{array}{ccccccc}
+             &amp; * &amp; \ldots &amp; \ldots &amp; \ldots &amp; * &amp; \\
+             &amp; 0 &amp; * &amp;  &amp;  &amp; \vdots &amp; \\
+             &amp; \vdots &amp; \ddots &amp; \ddots &amp;  &amp; \vdots &amp; \\
+             &amp; \vdots &amp;  &amp; \ddots &amp; * &amp; * &amp; \\
+             &amp; 0 &amp; \ldots &amp; \ldots &amp; 0 &amp; * &amp;
+    \end{array}
+    \right]$$</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+ </body> 
+
+</html>

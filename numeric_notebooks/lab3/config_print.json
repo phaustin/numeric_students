@@ -1,0 +1,13 @@
+{
+    "TemplateExporter": {
+        "template_path": [
+            "."
+        ]
+    },
+    "HTMLExporter": {
+        "template_name": "printit"
+    },
+    "html_filename": "lab3.html",
+    "pdf_filename": "lab3.pdf",
+    "comments": "comments here"
+}

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # ---
 # jupyter:
+#   header_metadata:
+#     chead: Feb., 2020
+#     lhead: Numeric Lab 2
 #   jupytext:
 #     cell_metadata_filter: all
 #     formats: ipynb,py:percent
@@ -9,7 +12,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.3.1
+#       jupytext_version: 1.3.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,9 +24,55 @@
 #
 # Grace Yung
 
-# %% [markdown] toc="true"
-# <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Laboratory-3:-Linear-Algebra-(Sept.-12,-2017)" data-toc-modified-id="Laboratory-3:-Linear-Algebra-(Sept.-12,-2017)-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Laboratory 3: Linear Algebra (Sept. 12, 2017)</a></span><ul class="toc-item"><li><span><a href="#List-of-Problems" data-toc-modified-id="List-of-Problems-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>List of Problems</a></span></li><li><span><a href="#Objectives" data-toc-modified-id="Objectives-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Objectives</a></span></li><li><span><a href="#Prerequisites" data-toc-modified-id="Prerequisites-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Prerequisites</a></span></li><li><span><a href="#Linear-Systems" data-toc-modified-id="Linear-Systems-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Linear Systems</a></span><ul class="toc-item"><li><span><a href="#What-is-a-Matrix?" data-toc-modified-id="What-is-a-Matrix?-1.4.1"><span class="toc-item-num">1.4.1&nbsp;&nbsp;</span>What is a Matrix?</a></span></li><li><span><a href="#Quick-Review" data-toc-modified-id="Quick-Review-1.4.2"><span class="toc-item-num">1.4.2&nbsp;&nbsp;</span>Quick Review</a></span></li><li><span><a href="#Gaussian-Elimination" data-toc-modified-id="Gaussian-Elimination-1.4.3"><span class="toc-item-num">1.4.3&nbsp;&nbsp;</span>Gaussian Elimination</a></span></li><li><span><a href="#Round-off-Error" data-toc-modified-id="Round-off-Error-1.4.4"><span class="toc-item-num">1.4.4&nbsp;&nbsp;</span>Round-off Error</a></span></li><li><span><a href="#Matrix-Inversion" data-toc-modified-id="Matrix-Inversion-1.4.5"><span class="toc-item-num">1.4.5&nbsp;&nbsp;</span>Matrix Inversion</a></span></li><li><span><a href="#Determinant" data-toc-modified-id="Determinant-1.4.6"><span class="toc-item-num">1.4.6&nbsp;&nbsp;</span>Determinant</a></span></li><li><span><a href="#Computational-cost-of-Gaussian-elimination" data-toc-modified-id="Computational-cost-of-Gaussian-elimination-1.4.7"><span class="toc-item-num">1.4.7&nbsp;&nbsp;</span>Computational cost of Gaussian elimination</a></span></li></ul></li><li><span><a href="#Eigenvalue-Problems" data-toc-modified-id="Eigenvalue-Problems-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Eigenvalue Problems</a></span><ul class="toc-item"><li><span><a href="#Characteristic-Equation" data-toc-modified-id="Characteristic-Equation-1.5.1"><span class="toc-item-num">1.5.1&nbsp;&nbsp;</span>Characteristic Equation</a></span></li><li><span><a href="#Eigenvectors" data-toc-modified-id="Eigenvectors-1.5.2"><span class="toc-item-num">1.5.2&nbsp;&nbsp;</span>Eigenvectors</a></span></li></ul></li><li><span><a href="#Iterative-Methods" data-toc-modified-id="Iterative-Methods-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>Iterative Methods</a></span></li><li><span><a href="#Solution-of-an-ODE-Using-Linear-Algebra" data-toc-modified-id="Solution-of-an-ODE-Using-Linear-Algebra-1.7"><span class="toc-item-num">1.7&nbsp;&nbsp;</span>Solution of an ODE Using Linear Algebra</a></span></li><li><span><a href="#References" data-toc-modified-id="References-1.8"><span class="toc-item-num">1.8&nbsp;&nbsp;</span>References</a></span></li><li><span><a href="#Numpy-and-Python-with-Matrices" data-toc-modified-id="Numpy-and-Python-with-Matrices-1.9"><span class="toc-item-num">1.9&nbsp;&nbsp;</span>Numpy and Python with Matrices</a></span></li><li><span><a href="#Glossary" data-toc-modified-id="Glossary-1.10"><span class="toc-item-num">1.10&nbsp;&nbsp;</span>Glossary</a></span></li></ul></li></ul></div>
+# %% [markdown]
+# #### Quiz on Matrices
+# Which matrix matches this system of equations?
+# <div id="quiz:sys">
+# $$\begin{array}{lcr}
+# 2x + 3y + 6z &=& 19\\
+# 3x + 6y + 9z &=& 21\\
+# x + 5y + 10z &=& 0
+# \end{array}$$
+# </div>
+# (A)
+# $$\left[ \begin{array}{ccc}
+# 2 & 3 & 1 \\
+# 3 & 6 & 5 \\
+# 6 & 9 & 10\\
+# 19 & 21 & 0
+# \end{array}
+# \right]$$
+# (B)
+# $$\left[ \begin{array}{ccc}
+# 2 & 3 & 6\\
+# 3 & 6 & 9\\
+# 1 & 5 & 10
+# \end{array}
+# \right]$$
+# (C)
+# $$\left[ \begin{array}{ccc|c}
+# 1 & 5 & 10 & 0\\
+# 2 & 3 & 6 & 19\\
+# 3 & 6 & 9 & 21
+# \end{array}
+# \right]$$
+# (D)
+# $$\left[ \begin{array}{ccc|c}
+# 2 & 3 & 6 & -19\\
+# 3 & 6 & 9 & -21\\
+# 1 & 5 & 10 & 0 
+# \end{array}
+# \right]$$
+#
+# In the following, replace 'x' by 'A', 'B', 'C', or 'D' and run the cell.
+
+# %% [markdown]
+# $\alpha = \beta$
+# $$\int \alpha dx = \beta$$
+# $\require{ams}$
+
+# %% [raw]
+# <brk>$~~~$</brk>
 
 # %% [markdown]
 # ## List of Problems

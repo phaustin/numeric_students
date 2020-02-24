@@ -9,14 +9,14 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.3.2
+#       jupytext_version: 1.3.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
-# %% [markdown] hide_input=true
+# %% [markdown]
 # # Lab 5: Daisyworld
 
 # %% [markdown]
@@ -114,7 +114,7 @@
 # %% [markdown]
 # <a name="sec_daisyworld"></a>
 #
-# # Introduction
+# ## Introduction
 #
 # It is obvious that life on earth is highly sensitive to the planet’s
 # atmospheric and climatic conditions. What is less obvious, but of great
@@ -158,7 +158,7 @@
 # %% [markdown]
 # <a name="sec_model"></a>
 #
-# # The Daisyworld Model
+# ## The Daisyworld Model
 #
 # Daisyworld is populated by two types of daisies, one darker and the
 # other lighter than the bare ground. As with life on earth, the daisies
@@ -181,7 +181,7 @@
 #
 # <a name="sec_population"></a>
 #
-# ## The Daisy Population
+# ### The Daisy Population
 #
 # The daisy population will be modeled along the lines of standard
 # population ecology models where the net growth depends upon the current
@@ -263,7 +263,7 @@
 # %% [markdown]
 # <a name="sec_growth"></a>
 #
-# ## Running the constant growth rate demo
+# ### Running the constant growth rate demo
 #
 # In the appendix we discuss the design of the integrator class and the adaptive Runge-Kutta
 # routine.  For this demo, we need to be able to change variables in the configuration
@@ -380,7 +380,7 @@ out = theAx.legend(theLines, ('white errors', 'black errors'), loc='best')
 # %% [markdown]
 # <a name="sec_coupling"></a>
 #
-# ## The Daisy Growth Rate - Coupling to the Environment
+# ### The Daisy Growth Rate - Coupling to the Environment
 #
 # We now want to couple the Daisy growth rate to the climate, which we do
 # by making the growth rate a function of the local temperature $T_i$,
@@ -531,7 +531,7 @@ out = theAx.legend(theLines, ('grey daisies', ), loc='best')
 # %% [markdown]
 # <a name="sec_conductivity"></a>
 #
-# # The Local Temperature - Dependence on Surface Heat Conductivity
+# ## The Local Temperature - Dependence on Surface Heat Conductivity
 #
 # If we now allow for black and white daisies, the local temperature will
 # differ according to the albedo of the region. The regions with white
@@ -670,7 +670,7 @@ out = theAx.legend(theLines, ('white daisies', 'black daisies'),
 # %% [markdown]
 # <a name="sec_feedback"></a>
 #
-# # The Feedback Loop - Feedback Through the Planetary Albedo
+# ## The Feedback Loop - Feedback Through the Planetary Albedo
 #
 # The amount of solar radiation the planet reflects will depend on the
 # daisy population since the white daisies will reflect more radiation
@@ -834,11 +834,11 @@ out = theAx.legend(loc='center right')
 # %% [markdown]
 # <a name="sec_adaptive"></a>
 #
-# # Adaptive Stepsize in Runge-Kutta
+# ## Adaptive Stepsize in Runge-Kutta
 #
 # <a name="sec_adaptivewhy"></a>
 #
-# ## Why Adaptive Stepsize?
+# ### Why Adaptive Stepsize?
 #
 # As a rule of thumb, accuracy increases in Runge-Kutta methods as
 # stepsize decreases. At the same time, the number of function evaluations
@@ -867,7 +867,7 @@ out = theAx.legend(loc='center right')
 #
 # <a name="sec_design"></a>
 #
-# ## Designing Adaptive Stepsize Control
+# ### Designing Adaptive Stepsize Control
 #
 # Now that the goal is clear, the question remains of how to close in on
 # it. As mentioned above, an adaptive algorithm is usually asked to solve
@@ -885,7 +885,7 @@ out = theAx.legend(loc='center right')
 #
 # <a name="sec_doubling"></a>
 #
-# ## Error Estimate by Step Doubling
+# ### Error Estimate by Step Doubling
 #
 # The first and simple approach to arriving at an error estimate is to
 # simply take every step twice. The second time the step is divided up
@@ -910,7 +910,7 @@ out = theAx.legend(loc='center right')
 #
 # <a name="sec_embedded"></a>
 #
-# ## Error Estimate using Embedded Runge-Kutta
+# ### Error Estimate using Embedded Runge-Kutta
 #
 # Another way of estimating the truncation error of a step is due to the
 # existence of the special fifth-order Runge-Kutta methods discussed
@@ -1034,7 +1034,7 @@ theAx.set_title('lab 5 interactive 5 -- fixed errors')
 # %% [markdown]
 # <a name="sec_adjust"></a>
 #
-# ##  Using Error to Adjust the Stepsize
+# ###  Using Error to Adjust the Stepsize
 #
 # Both step doubling and embedded methods leave us with the difference
 # between two different order solutions to the same step. Provided is a
@@ -1143,7 +1143,7 @@ out = theAx.legend(loc='best')
 #
 # <a name="sec_coding"></a>
 #
-# # Coding Runge-Kutta Adaptive Stepsize Control
+# ## Coding Runge-Kutta Adaptive Stepsize Control
 #
 # The Runge-Kutta code developed in Lab 4 solves the given ODE system in
 # fixed timesteps. It is now necessary to exert adaptive timestep control
@@ -1233,7 +1233,7 @@ out = theAx.legend(loc='best')
 #
 # <a name="sec_steady"></a>
 #
-# ## Daisyworld Steady States
+# ### Daisyworld Steady States
 #
 # We can now use the Runge-Kutta code with adaptive timestep control to
 # find some steady states of Daisyworld by varying the luminosity $LS_0$ in the
@@ -1259,7 +1259,7 @@ out = theAx.legend(loc='best')
 #
 # <a name="sec_neutral"></a>
 #
-# ##  Neutral Daisies
+# ###  Neutral Daisies
 #
 # The first case we consider is the case investigated in a previous demo
 # where the albedo of the daisies and the ground are set to the same
@@ -1279,7 +1279,7 @@ out = theAx.legend(loc='best')
 # %% [markdown]
 # <a name="sec_black"></a>
 #
-# ## Black Daisies
+# ### Black Daisies
 #
 # Now consider a population of black daisies. Note the sharp jump in the
 # graph when the first non-zero daisy steady states appear and the
@@ -1300,7 +1300,7 @@ out = theAx.legend(loc='best')
 # %% [markdown]
 # <a name="sec_white"></a>
 #
-# ## White Daisies
+# ### White Daisies
 #
 # Consider now a population of purely white daisies. In this case there is
 # an abrupt drop in the daisy steady state when it approaches zero with a
@@ -1321,7 +1321,7 @@ out = theAx.legend(loc='best')
 # %% [markdown]
 # <a name="sec_blackwhite"></a>
 #
-# ## Black and White Daisies
+# ### Black and White Daisies
 #
 # Finally, consider a population of both black and white daisies. This
 # blends in features from the cases where the daisy population was purely
@@ -1341,7 +1341,7 @@ out = theAx.legend(loc='best')
 # %% [markdown]
 # <a name="sec_conclusion"></a>
 #
-# # Conclusion
+# ## Conclusion
 #
 # Black daisies can survive at lower mean temperatures than the white
 # daisies and the reverse is true for white daisies. The end result is
@@ -1383,7 +1383,7 @@ out = theAx.legend(loc='best')
 # leave the daisies alone.
 
 # %% [markdown]
-# # Appendix: Note on Global Energy Balance
+# ## Appendix: Note on Global Energy Balance
 #
 # The statement that the earth is in energy balance follows from the First
 # Law of Thermodynamics, i.e.
@@ -1449,7 +1449,7 @@ out = theAx.legend(loc='best')
 #
 #
 #
-# # Summary: Daisy World Equations
+# ## Summary: Daisy World Equations
 #
 # $$\frac{dA_w}{dt} = A_w ( \beta_w x - \chi)$$
 #
@@ -1468,7 +1468,7 @@ out = theAx.legend(loc='best')
 # %% [markdown]
 # <div id="code_org">
 # %% [markdown]
-# # Appendix:  Organization of the adaptive Runge Kutta routines
+# ## Appendix:  Organization of the adaptive Runge Kutta routines
 #
 # * The coding follows [Press et al.](pdfs/adapt_ode.pdf), with the adaptive Runge Kutta defined
 #   in the Integrator base class [here](https://github.com/phaustin/numeric/blob/10117233dc7c440b15c549c8086d76a03b9dcdd0/numlabs/lab5/lab5_funs.py#L43-L59)
@@ -1495,7 +1495,7 @@ out = theAx.legend(loc='best')
 # which give an example of how to use the instance variable data (self.uservars) in additional calculations.
 
 # %% [markdown]
-# # Appendix:  2 minute intro to object oriented programming
+# ## Appendix:  2 minute intro to object oriented programming
 #
 # For a very brief introduction to python classes take a look at [these scipy lecture notes](http://www.scipy-lectures.org/intro/language/oop.html)
 # that define some of the basic concepts. For perhaps more detail than you want/need to know, see this 2 part
@@ -1508,7 +1508,7 @@ out = theAx.legend(loc='best')
 #
 
 # %% [markdown]
-# ## Classes and constructors
+# ### Classes and constructors
 
 
 # %%
@@ -1550,7 +1550,7 @@ the_integ.dumpit('Demo object')
 # part of the function call.
 
 # %% [markdown]
-# ##  finding the attributes and methods of a class instance
+# ###  finding the attributes and methods of a class instance
 #
 # Python has a couple of functions that allow you to see the methods and
 # attributes of objects
@@ -1589,7 +1589,7 @@ only_methods = [
 print('methods for the_integ: ', only_methods)
 
 # %% [markdown]
-# ## Inheritance
+# ### Inheritance
 
 # %% [markdown]
 # We can also specialize a class by driving from a base and then adding more data or members,
@@ -1622,7 +1622,7 @@ sample.calc_trig()
 sample.print_trig('July 5')
 
 # %% [markdown]
-# ## Initializing using yaml
+# ### Initializing using yaml
 #
 # To specify the intial values for the class, we use a plain text
 # format called [yaml](http://www.yaml.org/spec/1.2/spec.html).  To write a yaml
@@ -1653,7 +1653,7 @@ print(init_dict)
 # %% [markdown]
 # <div id="sec_override">
 #
-# ## Overriding initial values in a derived class
+# ### Overriding initial values in a derived class
 
 # %% [markdown]
 # Suppose we want to change a value like the strength of the sun, $L$, after it's been
@@ -1713,7 +1713,7 @@ for theL in Lvals:
 # ```
 
 # %% [markdown]
-# ## Specific example
+# ### Specific example
 #
 # So to use this technique for [Problem Conduction](#prob_conduction), override `set_yinit` so that
 # it will take a new luminosity value newL, and add it to uservars, like this:
@@ -1771,7 +1771,7 @@ for theL in Lvals:
 #
 # `theSolver.uservars.L`  is indeed 50
 #
-# ### Check your understanding
+# #### Check your understanding
 #
 # To see if you're really getting the zeitgeist, try an alternative design where
 # you leave the constructor as is, and instead add a new method called:
@@ -1791,7 +1791,7 @@ for theL in Lvals:
 # and get `theSolver.uservars.L` set to 50.
 
 # %% [markdown]
-# ## Why bother?
+# ### Why bother?
 #
 # What does object oriented programming buy us?  The dream was that companies/coders could ship
 # standard base classes, thoroughly tested and documented, and then users could adapt those
