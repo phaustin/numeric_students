@@ -1,0 +1,24 @@
+timevars:
+  dt: 0.02
+  tstart: 0.0
+  tend: 50.0
+uservars:
+  sigma: 10
+  beta: 2.666666
+  rho: 28.
+initvars:
+  x: -20.1
+  y: -10.1
+  z: 10.1
+adaptvars:
+  dtpassmin: 0.1
+  dtfailmax: 0.5
+  dtfailmin: 0.01
+  s: 0.9
+  rtol: 1.0e-08
+  atol: 1.0e-08
+  maxsteps: 2000
+  maxfail: 60
+  dtpassmax: 5.0
+
+

@@ -53,7 +53,7 @@ class Integrator:
 
     def __init__(self, coeffFileName):
         with open(coeffFileName, 'rb') as f:
-            config=yaml.load(f, Loader=yaml.FullLoader)
+            config = yaml.load(f,Loader=yaml.BaseLoader)
         self.config = config
         # read in dt tstart tend
         timevars = namedtuple('timevars',config['timevars'].keys())
