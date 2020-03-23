@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.3.4
+#       jupytext_version: 1.4.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -17,34 +17,10 @@
 # ---
 
 # %% [markdown]
-# # Laboratory 8:  Quasi-geostrophic Equations 
-# Lin Yang & John M. Stockie 
+# # Laboratory 8:  Solution of the Quasi-geostrophic Equations 
 #
-
-# %% [markdown]
-# ## Contents ##
+#  Lin Yang & John M. Stockie 
 #
-# - [List of Problems](#List-of-Problems)
-# - [1. Objectives](#1.-Objectives)
-# - [2. Readings](#2.-Readings)
-# - [3. Introduction](#3.-Introduction)
-# - [4. The Quasi-Geostrophic Model](#4.-The-Quasi-Geostrophic-Model)
-#   * [4.1 Scaling the Equations of Motion](#4.1-Scaling-the-Equations-of-Motion)
-# - [5. Discretization of the QG equations](#5.-Discretization-of-the-QG-equations)
-#   * [5.1 Spatial Discretization](#5.1-Spatial-Discretization)
-#     - [5.1.1 Right Hand Side](#5.1.1-Right-Hand-Side)
-#     - [5.1.2 Boundary Conditions](#5.1.2-Boundary-Conditions)
-#     - [5.1.3 Matrix Form of the Discrete Equations](#5.1.3-Matrix-Form-of-the-Discrete-Equations)
-#   * [5.2 Solution of the Poisson Equation by Relaxation](#5.2-Solution-of-the-Poisson-Equation-by-Relaxation)
-#   * [5.3 Temporal Discretization](#5.3-Temporal-Discretization)
-#   * [5.4 Outline of the Solution Procedure](#5.4-Outline-of-the-Solution-Procedure)
-# - [6. Aliasing Error and Nonlinear Instability](#6.-Aliasing-Error-and-Nonlinear-Instability)
-# - [7. Classical Solutions](#7.-Classical Solutions)
-# - [A. Mathematical Notes](#A.-Mathematical-Notes)
-#   * [A.1 Definition of the Beta-plane](#A.1-Definition-of-the-Beta-plane)
-#   * [A.2 Simplification of the QG Model Equations](#A.2-Simplification-of-the-QG-Model-Equations)
-# - [Glossary](#Glossary)  
-# - [References](#References)
 
 # %% [markdown]
 # ## List of Problems ##
@@ -57,7 +33,7 @@
 # - [Problem 6:](#Problem-Six) Duplication of classical results
 
 # %% [markdown]
-# ## 1. Objectives ##
+# ## Objectives ##
 #
 # This lab is an introduction to the use of implicit schemes for the
 # solution of PDE’s, using as an example the quasi-geostrophic equations
@@ -72,7 +48,7 @@
 # previously-obtained “classical” results.
 
 # %% [markdown]
-# ## 2. Readings ##
+# ## Readings
 # There are no required readings for this lab. If you would like some
 # additional background beyond the material in the lab itself, then you
 # may refer to the references listed below:
@@ -94,7 +70,7 @@
 #
 #     -   [Strang](#Ref:Strang) (analysis of implicit schemes)
 #
-#     -   [McCalpin](#Ref:Mccalpin) (QGbox model)
+#     -   [McCalpin](#Ref:McCalpin) (QGbox model)
 #
 # -   **Classical numerical results:**
 #
@@ -110,7 +86,7 @@ from IPython.display import Image
 from numlabs.lab8 import quiz8 as quiz
 
 # %% [markdown]
-# ## 3. Introduction ##
+# ## Introduction ##
 #
 # An important aspect in the study of large-scale circulation in the ocean
 # is the response of the ocean to wind stress. Solution of this problem
@@ -131,7 +107,7 @@ from numlabs.lab8 import quiz8 as quiz
 # and to compare the computed results to those from some classical papers
 # on numerical ocean simulations.
 #
-# Some of the numerical details (in Sections [5.1.1 Right Hand Side](#5.1.1-Right-Hand-Side), [5.1.2 Boundary Conditions](#5.1.2-Boundary-Conditions), [5.1.3 Matrix Form of Discrete Equations](#5.1.3-Matrix-Form-of-Discrete-Equations), [5.2 Solution of the Poisson Equation by Relaxation](#5.2-Solution-of-the-Poisson-Equation-by-Relaxation)
+# Some of the numerical details (in Sections [Right Hand Side](#Right-Hand-Side), [Boundary Conditions](#Boundary-Conditions), [Matrix Form of Discrete Equations](#Matrix-Form-of-the-Discrete-Equations), [Solution of the Poisson Equation by Relaxation](#Solution-of-the-Poisson-Equation-by-Relaxation)
 # and the
 # appendices) are quite technical, and may be passed over the first time
 # you read through the lab. You can get a general idea of the basic
@@ -143,7 +119,7 @@ from numlabs.lab8 import quiz8 as quiz
 #
 
 # %% [markdown]
-# ## 4. The Quasi-Geostrophic Model ##
+# ## The Quasi-Geostrophic Model ##
 #
 # Consider a rectangular ocean with a flat bottom, as pictured in
 # [Figure Model Ocean](#Figure-Model-Ocean), and ignore curvature effects, by confining the region of interest to a *mid-latitude $\beta$-plane*.
@@ -165,24 +141,31 @@ Image(filename='images/rect.png',width='45%')
 # throughout), then the equations governing the fluid motion on the
 # $\beta$-plane are: 
 #
-# <a name='eq:xmom'></a>
-# (X-Momentum Eqn)
-# $$
-#   \frac {\partial u}{\partial t} + u \frac {\partial u}{\partial x} + v \frac {\partial u}{\partial y} + w \frac{\partial u}{\partial z} - fv = - \, \frac{1}{\rho} \, \frac {\partial p}{\partial x}
-#   + A_v \, \frac{\partial^2 u}{\partial z^2} + A_h \, \nabla^2 u
-# $$
-# <a name='eq:ymom'></a>
-# (Y-Momentum Eqn)
-# $$
-#   \frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} + w \frac{\partial v}{\partial z} + fu = - \, \frac{1}{\rho} \, \frac{\partial p}{\partial y}
-#   + A_v \, \frac{\partial^2 v}{\partial z^2} + A_h \, \nabla^2 v
-# $$
-# <a name='eq:hydrostatic'></a>
-# (Hydrostatic Eqn)
-# $$\frac{\partial p}{\partial z} = - \rho g$$
-# <a name='eq:continuity'></a>
-# (Continuity Eqn)
-# $$\frac {\partial u}{\partial x} + \frac{\partial v}{\partial y} = - \, \frac{\partial w}{\partial z}$$
+# <div id="eq:xmom">(X-Momentum Eqn)</div>
+#
+# \begin{equation}
+# \frac{\partial u}{\partial t} + u \frac {\partial u}{\partial x} + v \frac {\partial u}{\partial y} + w \frac{\partial u}{\partial z} - fv = - \, \frac{1}{\rho} \, \frac {\partial p}{\partial x}
+# + A_v \, \frac{\partial^2 u}{\partial z^2} + A_h \, \nabla^2 u
+# \end{equation}
+#
+# <div id="eq:ymom">(Y-Momentum Eqn)</div>
+#
+# \begin{equation}
+# \frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} + w \frac{\partial v}{\partial z} + fu = - \, \frac{1}{\rho} \, \frac{\partial p}{\partial y}
+# + A_v \, \frac{\partial^2 v}{\partial z^2} + A_h \, \nabla^2 v
+# \end{equation}
+#
+# <div id="eq:hydrostatic">(Hydrostatic Eqn)</div>
+#
+# \begin{equation}
+# \frac{\partial p}{\partial z} = - \rho g
+# \end{equation}
+#
+# <div id="eq:continuity">(Continuity Eqn)</div>
+#
+# \begin{equation}
+# \frac {\partial u}{\partial x} + \frac{\partial v}{\partial y} = - \, \frac{\partial w}{\partial z}
+# \end{equation}
 #
 # where
 #
@@ -217,7 +200,7 @@ Image(filename='images/rect.png',width='45%')
 
 # %% [markdown]
 # By applying a sequence of physically-motivated approximations (see
-# [Appendix A.2 Simplification of the QG Model Equations](#A.2-Simplification-of-the-QG-Model-Equations])) and by using the boundary conditions, the system([X-Momentum Eqn](#eq:xmom)), ([Y-Momentum Eqn](#eq:ymom)), ([Hydrostatic Eqn](#eq:hydrostatic)) and ([Continuity Eqn](#eq:continuity)) can be
+# [Appendix Simplification of the QG Model Equations](#Simplification-of-the-QG-Model-Equations])) and by using the boundary conditions, the system([X-Momentum Eqn](#eq:xmom)), ([Y-Momentum Eqn](#eq:ymom)), ([Hydrostatic Eqn](#eq:hydrostatic)) and ([Continuity Eqn](#eq:continuity)) can be
 # reduced to a single PDE: 
 # <div id='eq:quasi'>
 # (Quasi-Geotrophic Eqn)
@@ -258,7 +241,7 @@ Image(filename='images/rect.png',width='45%')
 
 # %% [markdown]
 # -   $\beta = df/dy$ is a constant, where $f(y) = f_0+\beta y$ (see
-#     [Appendix A.1 Definition of the Beta-plane](#A.1-Definition-of-the-Beta-plane));
+#     [Appendix Definition of the Beta-plane](#Definition-of-the-Beta-plane));
 #
 # -   $\kappa = {1}/{H}  \left[ (A_v f_0)/{2} \right]^{1/2}$ is the bottom friction scaling (constant); and
 #
@@ -283,7 +266,7 @@ Image(filename='images/rect.png',width='45%')
 #     $\hat{n}$ is the normal vector to the boundary).
 
 # %% [markdown]
-# ### 4.1 Scaling the Equations of Motion ###
+# ### Scaling the Equations of Motion ###
 #
 # In physical problems, it is not uncommon for some of the quantities of
 # interest to differ in size by many orders of magnitude. This is of
@@ -420,7 +403,7 @@ Image(filename='images/rect.png',width='45%')
 # using [the scale equations](#eq:xscale).
 
 # %% [markdown]
-# ## 5. Discretization of the QG equations ##
+# ## Discretization of the QG equations ##
 #
 # At first glance, it is probably not clear how one might discretize the
 # QG equation ([Rescaled Quasi-Geostrophic Eqn](#eq:qg-rescaled)) from the previous section. This equation is an evolution
@@ -455,7 +438,7 @@ Image(filename='images/rect.png',width='45%')
 #
 
 # %% [markdown]
-# ### 5.1 Spatial Discretization #
+# ### Spatial Discretization
 #
 # Assume that we are dealing with a square ocean, with dimensions
 # $1\times 1$ (in non-dimensional coordinates) and begin by dividing the
@@ -504,10 +487,10 @@ Image(filename='images/spatial.png',width='45%')
 # Here, we’ve used
 # $F_{i,j} = F(x_i,y_j,t)$ as the values of the right hand side function
 # at the discrete points, and said nothing of how to discretize $F$ (this
-# will be left until [Section 5.1.1 Right Hand Side](#5.1.1-Right-Hand-Side). The ([Discrete $\chi$ equation](#eq:discrete-chi)) is an equation centered at the grid point $(i,j)$, and relating
+# will be left until [Right Hand Side](#Right-Hand-Side). The ([Discrete $\chi$ equation](#eq:discrete-chi)) is an equation centered at the grid point $(i,j)$, and relating
 # the values of the approximate solution, $\chi_{i,j}$, at the $(i,j)$
 # point, to the four neighbouring values, as described by the *5-point difference stencil* pictured in
-# [Figure Stencil](#fig:stencil]).
+# [Figure Stencil](#fig:stencil).
 
 # %%
 Image(filename='images/2diff.png',width='40%') 
@@ -546,12 +529,12 @@ Image(filename='images/2diffgrid.png',width='40%')
 # few more details for the discretization of the right hand side function,
 # $F(x,y,t)$, and the boundary conditions. If you’d rather skip these for
 # now, and move on to the time discretization
-# ([Section 5.3 Temporal Discretization](#5.3-Temporal-Discretization))
+# ([Section Temporal Discretization](#Temporal-Discretization))
 # or the outline of the solution procedure
-# ([Section 5.4 Outline of Solution Procedure](#5.4-Outline-of-Solution-Procedure)), then you may do so now.
+# ([Section Outline of Solution Procedure](#Outline-of-Solution-Procedure)), then you may do so now.
 
 # %% [markdown]
-# ### 5.1.1 Right Hand Side ###
+# #### Right Hand Side
 #
 # The right hand side function for the ([Poisson equation](#eq:poisson)) is reproduced here
 # in scaled form (with the “primes” dropped): 
@@ -617,7 +600,7 @@ Image(filename='images/4diff.png',width='40%')
 #   $$
 
 # %% [markdown]
-# ## *Problem One* ##
+# #### Problem One
 # > Apply the standard centered difference formula
 # (see Lab 1 if you need to refresh you memory) to get a difference
 # approximation to the Jacobian based on ([Jacobian: Expansion 1](#eq:jacob1). You will use this later in
@@ -644,14 +627,14 @@ Image(filename='images/4diff.png',width='40%')
 #    </div> 
 #     
 # Each formula leads to a different discrete formula, and we will see in
-# [Section 6. Aliasing Error and Nonlinear Instability](#6.-Aliasing-Error-and-Nonlinear-Instability)
+# [Section Aliasing Error and Nonlinear Instability](#Aliasing-Error-and-Nonlinear-Instability)
 #  what effect the non-linear term has on
 # the discrete approximations and how the use of the different formulas
 # affect the behaviour of the numerical scheme. Before moving on, try to
 # do the following two quizzes.
 
 # %% [markdown]
-# ## Quiz on Jacobian Expansion #2 ## 
+# #### Quiz on Jacobian Expansion \#2
 #
 # Using second order centered differences, what is the discretization of the second form of the Jacobian given by
 #
@@ -680,7 +663,7 @@ Image(filename='images/4diff.png',width='40%')
 print (quiz.jacobian_2(answer = 'x'))
 
 # %% [markdown]
-# ## Quiz on Jacobian Expansion #3 ## 
+# #### Quiz on Jacobian Expansion #3 
 #
 # Using second order centered differences, what is the discretization of the third form of the Jacobian given by
 #
@@ -709,7 +692,7 @@ print (quiz.jacobian_2(answer = 'x'))
 print (quiz.jacobian_3(answer = 'x'))
 
 # %% [markdown]
-# ### 5.1.2 Boundary Conditions ###
+# #### Boundary Conditions
 #
 # One question that arises immediately when applying the difference
 # stencils in [Figure Stencil](#fig:stencil) and [Figure Bi-Laplacian Stencil](#fig:d4stencil)
@@ -720,7 +703,7 @@ print (quiz.jacobian_3(answer = 'x'))
 #
 # The answer to this question lies with the <span>*boundary
 # conditions*</span> for $\chi$ and $\psi$. We already know the boundary
-# conditions for $\psi$ from [Section 4. The Quasi-Geostrophic Model](#4.-The-Quasi-Geostrophic-Model):
+# conditions for $\psi$ from [Section The Quasi-Geostrophic Model](#The-Quasi-Geostrophic-Model):
 #
 # Free slip:
 #
@@ -826,7 +809,7 @@ Image(filename='images/noslip.png',width='40%')
 # QGBOX code documentation, on page 44.
 
 # %% [markdown]
-# ### 5.1.3 Matrix Form of the Discrete Equations ###
+# #### Matrix Form of the Discrete Equations
 #
 # In order to write the discrete equations  in matrix form, we must first
 # write the unknown values $\chi_{i,j}$ in vector form. The most obvious
@@ -876,7 +859,7 @@ Image(filename='images/matrix.png',width='40%')
 # scheme*, which is the subject of the next section..
 
 # %% [markdown]
-# ### 5.2 Solution of the Poisson Equation by Relaxation ###
+# ### Solution of the Poisson Equation by Relaxation
 #
 # One thing to notice about the matrix in [Figure Matrix](#fig:matrix) is that
 # it contains many zeros. Direct methods, such as Gaussian elimination
@@ -1030,7 +1013,7 @@ Image(filename='images/matrix.png',width='40%')
 #     These won’t be described here.
 
 # %% [markdown]
-# ### 5.3 Temporal Discretization ###
+# ### Temporal Discretization ###
 #
 # Let us now turn to the time evolution equation for the stream function.
 # Supposing that the initial time is $t=0$, then we can approximate the
@@ -1086,7 +1069,7 @@ Image(filename='images/leapfrog.png',width='40%')
 #     problems*, but should still be kept in mind …
 #
 #     The leap-frog time-stepping scheme has a disadvantage in that it
-#     introduces a “computational mode” …  [McCalpin](#Ref:mccalpin) [p. 23]
+#     introduces a “computational mode” …  [McCalpin](#Ref:McCalpin) [p. 23]
 #     describes this as follows:
 #
 #     > *Leap-frog models are plagued by a phenomenon called the
@@ -1122,7 +1105,7 @@ Image(filename='images/leapfrog.png',width='40%')
 #     Lab \#8.
 
 # %% [markdown]
-# ### 5.4 Outline of Solution Procedure ###
+# ### Outline of Solution Procedure ###
 #
 # Now that we have discretized in both space and time, it is possible to
 # outline the basic solution procedure.
@@ -1131,13 +1114,13 @@ Image(filename='images/leapfrog.png',width='40%')
 #       \Psi^{p-1}$
 #
 # 2.  Calculate $F_{i,j}^p$ for each grid point $(i,j)$ (see
-#     [Section 5.1.1 Right Hand Side](#5.1.1-Right-Hand-Side)). Keep in mind that the viscosity terms
+#     [Section Right Hand Side](#Right-Hand-Side)). Keep in mind that the viscosity terms
 #     ($\nabla_h^2\psi$ and $\nabla_h^4\psi$) are evaluated at time level
 #     $p-1$, while all other terms are evaluated at time level $p$ (this
-#     was discussed in [Section 5.3 Temporal Discretization](#5.3-Temporal-Discretization).
+#     was discussed in [Section Temporal Discretization](#Temporal-Discretization)).
 #
 # 3.  Solve the ([Discrete $\chi$ equation](#eq:discrete-chi)) for $\chi_{i,j}^p$ (the actual
-#     solution method will be described in [Section 5.2 Solution of the Poisson Equation by Relaxation](#5.2-Solution-of-the-Poisson-Equation-by-Relaxation).
+#     solution method will be described in [Section Solution of the Poisson Equation by Relaxation](#Solution-of-the-Poisson-Equation-by-Relaxation).
 #
 # 4.  Given $\chi_{i,j}^p$, we can find $\Psi_{i,j}^{p+1}$ by using the
 #     ([Leap-frog time stepping scheme](#leapfrog))
@@ -1156,7 +1139,7 @@ Image(filename='images/leapfrog.png',width='40%')
 #
 # -   Use a predictor-corrector step, like that employed in Lab 7.
 #
-# ## *Problem Two* ##
+# ### Problem Two
 # > Now that you’ve seen how the basic
 # numerical scheme works, it’s time to jump into the numerical scheme. The
 # code has already been written for the discretization described above,
@@ -1196,7 +1179,7 @@ Image(filename='images/leapfrog.png',width='40%')
 
 # %% [markdown]
 # > Your task in this problem is to program the “straightforward”
-# discretization of the Jacobian term, using [(Jacobian: Expansion 1)](#eq:jaboc1), that you derived in
+# discretization of the Jacobian term, using [(Jacobian: Expansion 1)](#eq:jacob1), that you derived in
 # [Problem One](#Problem-One). The only change this involves is
 # inserting the code into the function **jac**. Once
 # finished, run the code. The parameter functions **param**
@@ -1216,11 +1199,11 @@ Image(filename='images/leapfrog.png',width='40%')
 # $k=\pi/b$ where $b$ is the size fo your domain.
 #
 # > If the code is still unstable, even though the CFL is satisfied, see
-# [Section 6. Aliasing Error and Nonlinear Instability](#6.-Aliasing-Error-and-Nonlinear-Instability). The solution is nonlinear unstable.
+# [Section Aliasing Error and Nonlinear Instability](#Aliasing-Error-and-Nonlinear-Instability). The solution is nonlinear unstable.
 # Switch to the Arakawa Jacobian for stability.
 
 # %% [markdown]
-# ## *Problem Three* ## 
+# ### Problem Three
 # >The code provided for [Problem Two](#Problem-Two) implements the SOR relaxation
 # scheme. Your job in this problem is to modify the relaxation code to
 # perform a Jacobi iteration.
@@ -1231,21 +1214,21 @@ Image(filename='images/leapfrog.png',width='40%')
 # code for the Jacobi relaxation scheme.
 
 # %% [markdown]
-# ## *Problem Four* ##
+# ### Problem Four
 # > Modify the code to implement the no-slip boundary
 # conditions.
 
 # %% [markdown]
-# ## *Problem Five* ##
+# ### Problem Five
 # >The code you’ve been working with so far uses the
 # simplest possible type of starting values for the unknown stream
 # function: both are set to zero. If you’re keen to play around with the
 # code, you might want to try modifying the SOR code for the two other
 # methods of computing starting values: using a forward Euler step, or a
-# predictor-corrector step (see [Section 5.4 Outline of Solution Procedure](#5.4-Outline-of-Solution-Procedure)).
+# predictor-corrector step (see [Section Outline of Solution Procedure](#Outline-of-Solution-Procedure)).
 
 # %% [markdown]
-# ## 6. Aliasing Error and Nonlinear Instability ##
+# ## Aliasing Error and Nonlinear Instability
 #
 # In [Problem Two](#Problem-Two), you encountered an example
 # of the instability that can occur when computing numerical solutions to
@@ -1271,7 +1254,7 @@ Image(filename='images/leapfrog.png',width='40%')
 # who is using numerical codes must be aware of.
 
 # %% [markdown]
-# ## *Example One* ##
+# ### Example One ###
 #
 # >Before moving on to how we can handle the
 # instability in our discretization of the QG equations, you should try
@@ -1336,27 +1319,27 @@ Image(filename='images/leapfrog.png',width='40%')
 # obtained by averaging the discrete Jacobians obtained by using standard
 # centered differences on the formulae [(Jacobian: Expansion 1)](#eq:jacob1), [(Jacobian: Expansion 2)](#eq:jacob2) and [(Jacobian: Expansion 3)](#eq:jacob3) (see
 # [Problem One](#Problem-One) and the two quizzes following it in
-# [Section 5.1.1 Right Hand Side](#5.1.1-Right-Hand-Side).
+# [Section Right Hand Side](#Right-Hand-Side).
 #
 # You will not be required to derive or code the Arakawa Jacobian (the
 # details are messy!), and the code will be provided for you for all the
 # problems following [Problem Two](#Problem-Two).
 
 # %% [markdown]
-# ## 7. Classical Solutions ##
+# ## Classical Solutions ##
 #
 # [Bryan (1963)](#Ref:Bryan) and [Veronis (1966)](#Ref:Veronis)
 #
-# ## *Problem Six* ##
+# ### Problem Six ###
 # > Using the SOR code from
 # Problems [Three](#Problem-Three) (free-slip BC’s) and [Four](#Problem-Four)
 # (no-slip BC’s), try to reproduce the classical results of Bryan and
 # Veronis.
 
 # %% [markdown]
-# ## A. Mathematical Notes ##
+# ## Mathematical Notes ##
 #
-# ### A.1 Definition of the Beta-plane ###
+# ### Definition of the Beta-plane ###
 #
 # A $\beta$-plane is a plane approximation of a curved section of the
 # Earth’s surface, where the Coriolis parameter, $f(y)$, can be written
@@ -1405,7 +1388,7 @@ Image(filename='images/beta-plane.png',width='30%')
 # ratios.</div>
 
 # %% [markdown]
-# ### A.2 Simplification of the QG Model Equations ##
+# ### Simplification of the QG Model Equations ##
 #
 # The first approximation we will make eliminates several of the
 # non-linear terms in the set of equations: ([X-Momentum Eqn](#eq:xmom)), ([Y-Momentum Eqn](#eq:ymom)), ([Hydrostatic Eqn](#eq:hydrostatic)) and ([Continuity Eqn](#eq:continuity)). A common simplification that is made in

@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.3.3
+#       jupytext_version: 1.4.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -516,8 +516,9 @@ Image(filename='images/stagger.png',width='50%')
 # boundary conditions are: $$u_{1}(t) = 0$$ $$u_{4}(t) = 0$$
 #
 # ### Problem One
-# [lab7:prob:staggered]:(#Problem-One) 
-# > Modify *rain.py* to solve this problem (Simple
+# [lab7:prob:staggered]:(#Problem-One)
+#
+# Modify *rain.py* to solve this problem (Simple
 # equations on a staggered grid). Submit your code and a final plot for
 # one case.
 #
@@ -777,10 +778,12 @@ Image(filename='images/multimag.png',width='60%')
 # [lab7:prob:stability]:(#Problem-Two)
 # > a) Find the CFL condition (in seconds) for $dt$
 # for the Python example in Problem One.
-# <!--- [lab7:prob:staggered]---> Test your
-# value. 
 #
-# > b) Find the CFL condition (in seconds) for $dt$ for the Python
+# <!--- [lab7:prob:staggered]--->
+#
+# Test your value. 
+#
+# b) Find the CFL condition (in seconds) for $dt$ for the Python
 # example in *rain.py*, ie., for the non-staggered grid. Test your value.
 #
 
@@ -849,7 +852,8 @@ Image(filename='images/simple_grid2.png',width='50%')
 #
 # ### Problem Three
 # [lab7:prob:grid2]:(#Problem-Three)
-# > Show that for grid 2
+#
+# Show that for grid 2
 # $$\omega ^2 = f^2  + \frac{4gH \sin^2(\frac{kd}{2})}{d^2}$$
 #
 # We can plot the two dispersion relations as a function of $k$ given the
@@ -862,14 +866,16 @@ accuracy2d.main(0.5)
 # %% [markdown]
 # ### Problem Four
 #
-# [lab7:prob:accurate]:(#Problem-Four) 
-# > Which grid gives the best accuracy for $d=R/2$?
+# [lab7:prob:accurate]:(#Problem-Four)
+#
+# Which grid gives the best accuracy for $d=R/2$?
 # Explain in what ways it is more accurate.
 #
 # ### Problem Five
 #
 # [lab7:prob:noy]:(#Problem-Five)
-# > Modify *rain.py* to solve equations
+#
+# Modify *rain.py* to solve equations
 # ([No variation in y, first eqn](#lab7:sec:firsteq)), ([No variation in y, second eqn](#lab7:sec:secondeq)) and ([No variation in y, third eqn](#lab7:sec:thirdeq)) on the most accurate
 # grid.
 
@@ -986,7 +992,7 @@ Image(filename='images/fourgrids.png', width='80%')
 #
 # [lab7:prob:stability~2~d]:(#Problem-Six)
 #
-# > Use the interactive example below to investigate stability of the various grids.  Calculate the stability for each grids A, B, and C.  Find the dt for stability (to one significant figure) given $f = 1 \times 10^{-4}$s$^{-1}$, $g = 10$ m s$^{-2}$, $H = 4000$ m and $dx = 20$ km. Is it the same for all four grids? Why not? 
+# Use the interactive example below to investigate stability of the various grids.  Calculate the stability for each grids A, B, and C.  Find the dt for stability (to one significant figure) given $f = 1 \times 10^{-4}$s$^{-1}$, $g = 10$ m s$^{-2}$, $H = 4000$ m and $dx = 20$ km. Is it the same for all four grids? Why not? 
 
 # %%
 # grid A is grid 1, grid B is grid 2 and and grid C is grid 3
@@ -1047,14 +1053,14 @@ Image(filename='images/accuracy_demo.png',width='60%')
 #
 # [lab7:prob:finite~d~ifference~f~orm]:(#Problem-Seven)
 #
-# > A.  For grid B, write down the finite difference form of the shallow
-# >    water equations.
+# A.  For grid B, write down the finite difference form of the shallow
+#     water equations.
 #
-# > B.  For grid C, write down the finite difference form of the shallow
-# >    water equations.
+# B.  For grid C, write down the finite difference form of the shallow
+#     water equations.
 #
-# > C.  For grid D, write down the finite difference form of the shallow
-# >    water equations.
+# C.  For grid D, write down the finite difference form of the shallow
+#     water equations.
 #
 # The dispersion relation for each grid can be found in a manner analgous
 # to that for the A grid. For the B grid the dispersion relation is
@@ -1067,9 +1073,9 @@ Image(filename='images/accuracy_demo.png',width='60%')
 # ### Problem Eight
 # [lab7:prob:disp~D~]:(#Problem-Eight)
 #
-# > Find the dispersion relation for the D grid.
+# Find the dispersion relation for the D grid.
 #
-# > In the interactive exercise below, you will enter the dispersion for
+# In the interactive exercise below, you will enter the dispersion for
 # each of the grids. Study each plot carefully for accuracy of phase and
 # group speed.
 
@@ -1088,9 +1094,9 @@ dispersion_2d.dispersion_2d(disp_analytic, disp_analytic, Rod=0.5)
 # ### Problem Nine
 # [lab7:prob:accuracy]:(#Problem-Nine)
 #
-# > A.  For $R/d = 2$ which grid gives the most accurate solution?  As well as the closeness of fit of $\omega/f$, also consider the group speed (gradient of the curve).  The group speed is the speed at which wave energy propagates. 
+# A.  For $R/d = 2$ which grid gives the most accurate solution?  As well as the closeness of fit of $\omega/f$, also consider the group speed (gradient of the curve).  The group speed is the speed at which wave energy propagates. 
 #
-# > B.  For $R/d = 0.2$ which grid gives the most accurate solution?  As well as the closeness of fit of $\omega/f$, also consider the group speed (gradient of the curve).  The group speed is the speed at which wave energy propagates. 
+# B.  For $R/d = 0.2$ which grid gives the most accurate solution?  As well as the closeness of fit of $\omega/f$, also consider the group speed (gradient of the curve).  The group speed is the speed at which wave energy propagates. 
 
 # %% [markdown]
 # ## Details

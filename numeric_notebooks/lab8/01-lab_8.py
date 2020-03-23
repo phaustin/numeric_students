@@ -2,27 +2,25 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: all
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-language_info,-toc,-latex_envs
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.3.1
+#       jupytext_version: 1.4.1
 #   kernelspec:
-#     display_name: Python [default]
+#     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
 # %% [markdown]
-# # Laboratory 8:  Solution of the Quasi-geostrophic Equations using an Implicit Scheme #
+# # Laboratory 8:  Solution of the Quasi-geostrophic Equations 
+#
 #  Lin Yang & John M. Stockie 
 #
-
-# %% [markdown] toc="true"
-#  # Table of Contents
-# <div class="toc" style="margin-top: 1em;"><ul class="toc-item" id="toc-level0"><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Laboratory-8:--Solution-of-the-Quasi-geostrophic-Equations-using-an-Implicit-Scheme" data-toc-modified-id="Laboratory-8:--Solution-of-the-Quasi-geostrophic-Equations-using-an-Implicit-Scheme-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Laboratory 8:  Solution of the Quasi-geostrophic Equations using an Implicit Scheme</a></span><ul class="toc-item"><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#List-of-Problems" data-toc-modified-id="List-of-Problems-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>List of Problems</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Objectives" data-toc-modified-id="Objectives-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Objectives</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Readings" data-toc-modified-id="Readings-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Readings</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Introduction" data-toc-modified-id="Introduction-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Introduction</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#The-Quasi-Geostrophic-Model" data-toc-modified-id="The-Quasi-Geostrophic-Model-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>The Quasi-Geostrophic Model</a></span><ul class="toc-item"><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Scaling-the-Equations-of-Motion" data-toc-modified-id="Scaling-the-Equations-of-Motion-1.5.1"><span class="toc-item-num">1.5.1&nbsp;&nbsp;</span>Scaling the Equations of Motion</a></span></li></ul></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Discretization-of-the-QG-equations" data-toc-modified-id="Discretization-of-the-QG-equations-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>Discretization of the QG equations</a></span><ul class="toc-item"><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Spatial-Discretization" data-toc-modified-id="Spatial-Discretization-1.6.1"><span class="toc-item-num">1.6.1&nbsp;&nbsp;</span>Spatial Discretization</a></span><ul class="toc-item"><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Right-Hand-Side" data-toc-modified-id="Right-Hand-Side-1.6.1.1"><span class="toc-item-num">1.6.1.1&nbsp;&nbsp;</span>Right Hand Side</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Problem-One" data-toc-modified-id="Problem-One-1.6.1.2"><span class="toc-item-num">1.6.1.2&nbsp;&nbsp;</span>Problem One</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Quiz-on-Jacobian-Expansion-#2" data-toc-modified-id="Quiz-on-Jacobian-Expansion-#2-1.6.1.3"><span class="toc-item-num">1.6.1.3&nbsp;&nbsp;</span>Quiz on Jacobian Expansion #2</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Quiz-on-Jacobian-Expansion-#3" data-toc-modified-id="Quiz-on-Jacobian-Expansion-#3-1.6.1.4"><span class="toc-item-num">1.6.1.4&nbsp;&nbsp;</span>Quiz on Jacobian Expansion #3</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Boundary-Conditions" data-toc-modified-id="Boundary-Conditions-1.6.1.5"><span class="toc-item-num">1.6.1.5&nbsp;&nbsp;</span>Boundary Conditions</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Matrix-Form-of-the-Discrete-Equations" data-toc-modified-id="Matrix-Form-of-the-Discrete-Equations-1.6.1.6"><span class="toc-item-num">1.6.1.6&nbsp;&nbsp;</span>Matrix Form of the Discrete Equations</a></span></li></ul></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Solution-of-the-Poisson-Equation-by-Relaxation" data-toc-modified-id="Solution-of-the-Poisson-Equation-by-Relaxation-1.6.2"><span class="toc-item-num">1.6.2&nbsp;&nbsp;</span>Solution of the Poisson Equation by Relaxation</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Temporal-Discretization" data-toc-modified-id="Temporal-Discretization-1.6.3"><span class="toc-item-num">1.6.3&nbsp;&nbsp;</span>Temporal Discretization</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Outline-of-Solution-Procedure" data-toc-modified-id="Outline-of-Solution-Procedure-1.6.4"><span class="toc-item-num">1.6.4&nbsp;&nbsp;</span>Outline of Solution Procedure</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Problem-Two" data-toc-modified-id="Problem-Two-1.6.5"><span class="toc-item-num">1.6.5&nbsp;&nbsp;</span>Problem Two</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Problem-Three" data-toc-modified-id="Problem-Three-1.6.6"><span class="toc-item-num">1.6.6&nbsp;&nbsp;</span>Problem Three</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Problem-Four" data-toc-modified-id="Problem-Four-1.6.7"><span class="toc-item-num">1.6.7&nbsp;&nbsp;</span>Problem Four</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Problem-Five" data-toc-modified-id="Problem-Five-1.6.8"><span class="toc-item-num">1.6.8&nbsp;&nbsp;</span>Problem Five</a></span></li></ul></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Aliasing-Error-and-Nonlinear-Instability" data-toc-modified-id="Aliasing-Error-and-Nonlinear-Instability-1.7"><span class="toc-item-num">1.7&nbsp;&nbsp;</span>Aliasing Error and Nonlinear Instability</a></span><ul class="toc-item"><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Example-One" data-toc-modified-id="Example-One-1.7.1"><span class="toc-item-num">1.7.1&nbsp;&nbsp;</span>Example One</a></span></li></ul></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Classical-Solutions" data-toc-modified-id="Classical-Solutions-1.8"><span class="toc-item-num">1.8&nbsp;&nbsp;</span>Classical Solutions</a></span><ul class="toc-item"><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Problem-Six" data-toc-modified-id="Problem-Six-1.8.1"><span class="toc-item-num">1.8.1&nbsp;&nbsp;</span>Problem Six</a></span></li></ul></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Mathematical-Notes" data-toc-modified-id="Mathematical-Notes-1.9"><span class="toc-item-num">1.9&nbsp;&nbsp;</span>Mathematical Notes</a></span><ul class="toc-item"><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Definition-of-the-Beta-plane" data-toc-modified-id="Definition-of-the-Beta-plane-1.9.1"><span class="toc-item-num">1.9.1&nbsp;&nbsp;</span>Definition of the Beta-plane</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Simplification-of-the-QG-Model-Equations" data-toc-modified-id="Simplification-of-the-QG-Model-Equations-1.9.2"><span class="toc-item-num">1.9.2&nbsp;&nbsp;</span>Simplification of the QG Model Equations</a></span></li></ul></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#Glossary" data-toc-modified-id="Glossary-1.10"><span class="toc-item-num">1.10&nbsp;&nbsp;</span>Glossary</a></span></li><li><span><a href="http://localhost:8891/notebooks/lab8/01-lab_8.ipynb#References" data-toc-modified-id="References-1.11"><span class="toc-item-num">1.11&nbsp;&nbsp;</span>References</a></span></li></ul></li></ul></div>
 
 # %% [markdown]
 # ## List of Problems ##
@@ -82,6 +80,7 @@
 #
 
 # %%
+import context
 from IPython.display import Image
 # import the quiz script
 from numlabs.lab8 import quiz8 as quiz
@@ -129,8 +128,8 @@ from numlabs.lab8 import quiz8 as quiz
 Image(filename='images/rect.png',width='45%') 
 
 # %% [markdown]
-# <div id='Figure-Model-Ocean'>
-# **Figure Model Ocean.** The rectangular ocean with flat bottom, ignoring curvature
+# <div id="Figure-Model-Ocean">
+# <strong>Figure Model Ocean</strong> The rectangular ocean with flat bottom, ignoring curvature
 # effects.
 # </div>
 #
@@ -142,24 +141,31 @@ Image(filename='images/rect.png',width='45%')
 # throughout), then the equations governing the fluid motion on the
 # $\beta$-plane are: 
 #
-# <a name='eq:xmom'></a>
-# (X-Momentum Eqn)
-# $$
-#   \frac {\partial u}{\partial t} + u \frac {\partial u}{\partial x} + v \frac {\partial u}{\partial y} + w \frac{\partial u}{\partial z} - fv = - \, \frac{1}{\rho} \, \frac {\partial p}{\partial x}
-#   + A_v \, \frac{\partial^2 u}{\partial z^2} + A_h \, \nabla^2 u
-# $$
-# <a name='eq:ymom'></a>
-# (Y-Momentum Eqn)
-# $$
-#   \frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} + w \frac{\partial v}{\partial z} + fu = - \, \frac{1}{\rho} \, \frac{\partial p}{\partial y}
-#   + A_v \, \frac{\partial^2 v}{\partial z^2} + A_h \, \nabla^2 v
-# $$
-# <a name='eq:hydrostatic'></a>
-# (Hydrostatic Eqn)
-# $$\frac{\partial p}{\partial z} = - \rho g$$
-# <a name='eq:continuity'></a>
-# (Continuity Eqn)
-# $$\frac {\partial u}{\partial x} + \frac{\partial v}{\partial y} = - \, \frac{\partial w}{\partial z}$$
+# <div id="eq:xmom">(X-Momentum Eqn)</div>
+#
+# \begin{equation}
+# \frac{\partial u}{\partial t} + u \frac {\partial u}{\partial x} + v \frac {\partial u}{\partial y} + w \frac{\partial u}{\partial z} - fv = - \, \frac{1}{\rho} \, \frac {\partial p}{\partial x}
+# + A_v \, \frac{\partial^2 u}{\partial z^2} + A_h \, \nabla^2 u
+# \end{equation}
+#
+# <div id="eq:ymom">(Y-Momentum Eqn)</div>
+#
+# \begin{equation}
+# \frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} + w \frac{\partial v}{\partial z} + fu = - \, \frac{1}{\rho} \, \frac{\partial p}{\partial y}
+# + A_v \, \frac{\partial^2 v}{\partial z^2} + A_h \, \nabla^2 v
+# \end{equation}
+#
+# <div id="eq:hydrostatic">(Hydrostatic Eqn)</div>
+#
+# \begin{equation}
+# \frac{\partial p}{\partial z} = - \rho g
+# \end{equation}
+#
+# <div id="eq:continuity">(Continuity Eqn)</div>
+#
+# \begin{equation}
+# \frac {\partial u}{\partial x} + \frac{\partial v}{\partial y} = - \, \frac{\partial w}{\partial z}
+# \end{equation}
 #
 # where
 #
